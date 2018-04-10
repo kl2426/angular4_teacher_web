@@ -1,0 +1,136 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+            <!--  我的云盘  -->
+            <div class="m-mycloudplate">
+                <div class="my-top">
+                    <button nz-button nzType="primary" (click)="modal_upload.isVisibleMiddle = true"><i class="anticon anticon-upload"></i>上传</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!-- <button nz-button nzType="primary"><i class="anticon anticon-download"></i>下载</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    <button nz-button nzType="primary" (click)="modal_new_file.isVisibleMiddle = true"><i class="anticon anticon-folder"></i>新建文件夹</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button nz-button nzType="primary" (click)="openModalMove()"><i class="anticon anticon-layout"></i>移动</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button nz-button nzType="default" (click)="click_many_del()"><i class="anticon anticon-delete"></i>删除</button>
+                </div>
+                
+                <!--  新建文件夹  -->
+                <nz-modal [(nzVisible)]="modal_new_file.isVisibleMiddle" nzTitle="新建文件夹" (nzOnCancel)="modal_new_file.isVisibleMiddle = false" (nzOnOk)="newFileForm()">
+                    <form nz-form [formGroup]="view_data.form_new_file" (ngSubmit)="newFileForm()">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dirName">文件名</nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24">
+                                <input nz-input formControlName="dirName" id="dirName">
+                                <nz-form-explain *ngIf="view_data.form_new_file.get('dirName').dirty && view_data.form_new_file.get('dirName').errors">文件名为1至32个字符!</nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </nz-modal>
+                
+                <!--  文件上传  -->
+                <nz-modal [(nzVisible)]="modal_upload.isVisibleMiddle" nzTitle="上传文件" (nzOnCancel)="modal_upload.isVisibleMiddle = false" [nzFooter]="null" 
+                    (nzOnOk)="newFileForm()">
+                    <nz-upload nzType="drag" [nzMultiple]="true" [nzData]="upfileForm" [nzLimit]="2" nzAction="{{view_data.upfile_path}}" (nzChange)="upfileHandleChange($event)">
+                        <p class="ant-upload-drag-icon">
+                            <i class="anticon anticon-inbox"></i>
+                        </p>
+                        <p class="ant-upload-text">点击或拖动文件到这个区域上传</p>
+                        <p class="ant-upload-hint">支持同时上传多个文件</p>
+                    </nz-upload>
+                </nz-modal>
+
+                <!--  重命名  -->
+                <nz-modal [(nzVisible)]="modal_new_name.isVisibleMiddle" nzTitle="重命名" (nzOnCancel)="modal_new_name.isVisibleMiddle = false"
+                    (nzOnOk)="newNameForm()">
+                    <form nz-form [formGroup]="view_data.form_new_name" (ngSubmit)="newFileForm()">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dirName">文件名</nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24">
+                                <input nz-input formControlName="dirName" id="dirName">
+                                <nz-form-explain *ngIf="view_data.form_new_name.get('dirName').dirty && view_data.form_new_name.get('dirName').errors">文件名为1至32个字符!</nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </nz-modal>
+
+
+                <!--  移动文件/夹  -->
+                <nz-modal [(nzVisible)]="modal_move.isVisibleMiddle" nzTitle="移动文件/文件夹" (nzOnCancel)="modal_move.isVisibleMiddle = false"
+                    (nzOnOk)="click_modal_move_ok()">
+                    <nz-tree [nzTreeData]="modal_move.tree" [nzDefaultExpandedKeys]="expandKeys" (nzClick)="click_modal_move_tree('click',$event)">
+                    </nz-tree>
+                </nz-modal>
+                
+                <!-- list -->
+                <div class="m-box">
+                    <div class="my-list">
+                        <div class="list-top clearfix">
+                            <div class="top-left">
+                                <ng-template [ngIf]="view_data.position.length > 1">
+                                    <a class="active" (click)="click_back(view_data.position[view_data.position.length - 2])">返回上一级</a>|
+                                </ng-template>
+                                <ng-template [ngIf]="view_data.position.length < 2">
+                                    <a>返回上一级</a>|
+                                </ng-template>
+                                <div style="display:inline-block;">
+                                    <span [ngClass]="{'active':(view_data.position.length - 1) != i}" (click)="click_back(item)" *ngFor="let item of view_data.position; index as i">{{item.name}}</span>
+                                </div>
+                            </div>
+                            <div class="top-right">
+                                <nz-input-group nzSuffixIcon="anticon anticon-search">
+                                    <input type="text" nz-input placeholder="搜索">
+                                </nz-input-group>
+                            </div>
+                        </div>
+                        <div class="my-table">
+                            <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzPageSize]="view_data.form.pageSize">
+                                <thead>
+                                    <tr>
+                                        <th nzShowCheckbox [(nzChecked)]="view_data.table.allChecked" [nzIndeterminate]="view_data.table.indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                                        <th>文件名</th>
+                                        <th style="text-align: center;">大小</th>
+                                        <th style="text-align: center;">上传时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of rowSelectionTable.data">
+                                        <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus($event)"></td>
+                                        <td class="my-title">
+                                            <div style="display:inline-block; vertical-align: top;" [ngSwitch]="data.fileType"  *ngIf="data.type === '1'">
+                                                <img *ngSwitchCase="'doc'" src="assets/img/icon/icon-doc.png" />
+                                                <img *ngSwitchCase="'jpg'" src="assets/img/icon/icon-jpg.png" />
+                                                <img *ngSwitchCase="'pdf'" src="assets/img/icon/icon-pdf.png" />
+                                                <img *ngSwitchCase="'ppt'" src="assets/img/icon/icon-ppt.png" />
+                                                <img *ngSwitchCase="'txt'" src="assets/img/icon/icon-txt.png" />
+                                                <img *ngSwitchCase="'xls'" src="assets/img/icon/icon-xls.png" />
+                                                <img *ngSwitchDefault src="assets/img/icon/icon-null.png" />
+                                            </div>
+                                            <div style="display:inline-block;vertical-align: top;">
+                                                <img *ngIf="data.type === '2'" src="assets/img/icon/icon-file.png" />
+                                            </div>
+
+                                            <span [ngClass]="{'folder':data.type==='2'}" style="width:350px;" title="{{data.name}}" (click)="click_name(data)">{{data.name}}</span>
+                                            <div class="my-title-share">
+                                            	<a title="分享到校本资源" *ngIf="false"><i class="anticon anticon-share-alt"></i></a>
+                                            	<a title="下载" *ngIf="data.type==='1'" target="_blank" href="{{view_data.downfile_path}}?authorization=Bearer {{view_data.accessToken}}&fileIds={{data.id}}"><i class="anticon anticon-download"></i></a>
+                                            	<a title="重命名" (click)="openNewName(data)"><i class="anticon anticon-edit"></i></a>
+                                            	<a title="删除" (click)="showDeleteConfirm(data)"><i class="anticon anticon-delete"></i></a>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center;">{{data.type === '1' ? data.fileSize : '---'}}</td>
+                                        <td style="text-align: center;">{{data.fileUploadTime.substr(0,16)}}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

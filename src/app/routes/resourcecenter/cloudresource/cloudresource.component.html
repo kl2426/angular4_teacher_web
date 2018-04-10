@@ -1,0 +1,70 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container">
+        <!--  内容  -->
+        <div class="clearfix">
+            <!-- left -->
+            <div class="index-left">
+                <!-- nav -->
+                <app-leftnav class="g-leftnav" (onVoted)="click_nav($event)"></app-leftnav>
+            </div>
+            <!-- right -->
+            <div class="index-right">
+                <!-- main -->
+                <div class="index-main">
+                    <!--  -->
+                    <nz-tabset [nzTabPosition]="'top'" (nzSelectChange)="click_table($event)" [nzType]="'card'">
+                        <nz-tab [nzTitle]="'全部'">
+                            <!-- <div>内容</div> -->
+                        </nz-tab>
+                        <nz-tab *ngFor="let item of view_data.resource_type" [nzTitle]="item.dictName">
+                            <!-- <div>内容</div> -->
+                        </nz-tab>
+                    </nz-tabset>
+                    <!-- list -->
+                    <div class="m-index-list">
+                        <div class="list-sort">
+                            <div class="active">
+                                <span>浏览量</span>
+                                <i class="sort-null"></i>
+                            </div>
+                            <div>
+                                <span>下载量</span>
+                                <i class="sort-acs"></i>
+                            </div>
+                            <div>
+                                <span>时间</span>
+                                <i class="sort-desc"></i>
+                            </div>
+                        </div>
+                        <div class="list-list">
+                            <ul class="list-ul clearfix">
+
+                                <li *ngFor="let item of view_data.res.row">
+                                    <a><img src="{{item.thumbnail}}" /></a>
+                                    <p><a title="{{item.title}}">{{item.title}}</a></p>
+                                    <div>
+                                        <span>路小雨上传<br>{{item.downloadNum}}次预览</span>
+                                        <i class="active"></i>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+
+                            <div class="list-null" *ngIf="view_data.res.row.length < 1">
+                                无数据
+                            </div>
+
+                            <!--  page -->
+                            <div class="m-page">
+                                <nz-pagination [nzPageIndex]="view_data.form.pageNum" (nzPageIndexChange)="click_page($event)" [nzPageSize]="view_data.form.pageSize" [nzTotal]="view_data.res.total"></nz-pagination>
+                                <p>共{{view_data.res.total}}个资源，每页{{view_data.form.pageSize}}个</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

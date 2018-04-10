@@ -1,58 +1,56 @@
 [![Build Status](https://travis-ci.org/cipchk/ng-alain.svg?branch=master)](https://travis-ci.org/cipchk/ng-alain)
 [![Dependency Status](https://david-dm.org/cipchk/ng-alain/status.svg)](https://david-dm.org/cipchk/ng-alain)
 [![NPM version](https://img.shields.io/npm/v/ng-alain.svg)](https://www.npmjs.com/package/ng-alain)
-[![NPM version](https://img.shields.io/npm/v/ng-alain/next.svg)](https://www.npmjs.com/package/ng-alain)
 
 # ng-alain
 
-[Ng-zorro-antd](https://github.com/NG-ZORRO/ng-zorro-antd) admin panel front-end framework.
+一套基于 [Ng-zorro-antd](https://github.com/NG-ZORRO/ng-zorro-antd)【ANT DESIGN】 的企业后台模板。
 
-更多信息见[中文 README](README-zh_CN.md)
+[README in English](README.md)
 
 [DEMO](https://cipchk.github.io/ng-alain/)
 
-## Quick start
+## 快速入门
 
-There are two ways to install:
+有二种方式进行安装：
 
-### Use the Command Line
+### 命令行工具
 
-Depend on `@delon/cli`, [How install?](http://ng-alain.com/docs/cli)
+需要依赖于 `@delon/cli`，[如何安装？](http://ng-alain.com/docs/cli)
 
 ```bash
 ng new -c=@delon/cli my-app
 ```
 
-### Clone the Git Repository
+### 直接 clone git 仓库
 
 ```bash
-# --depth 1 removes all but one .git commit history
 $ git clone --depth=1 https://github.com/cipchk/ng-alain.git my-project
 
-# change directory
 cd my-project
 
-# install npm package
+# 安装依赖包
 npm install
 
-# start the serve
+# 启动
 npm start
 
-# use HMR
+# 使用HMR启动
 npm run serve:hmr
 ```
 
-> [vscode] recommended install [ng-zorro-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode) plugins, that includes `nz-alain-*` snippets.
+> [vscode] 建议安装 [ng-zorro-vscode](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode) 插件，含 `nz-alain-*` 代码片断。
+
 
 ## Links
 
-+ [Document](http://ng-alain.com)
++ [文档](http://ng-alain.com)
 + [@delon](https://github.com/cipchk/delon)
 + [DEMO](https://cipchk.github.io/ng-alain/)
 
 ## Delon
 
-[delong](https://github.com/cipchk/delon) is a production-ready solution for admin business components packages, Built on the design principles developed by Ant Design.
+[delong](https://github.com/cipchk/delon) 是基于 Ant Design 设计理念的企业级中后台前端业务型组件库。
 
 [![Build Status](https://travis-ci.org/cipchk/delon.svg?branch=master)](https://travis-ci.org/cipchk/delon)
 [![Dependency Status](https://david-dm.org/cipchk/delon/status.svg)](https://david-dm.org/cipchk/delon)
@@ -75,23 +73,23 @@ npm run serve:hmr
 
 ![Architecture](https://github.com/cipchk/delon/blob/master/_screenshot/architecture.png)
 
-## Features
+## 特性
 
-+ `ng-zorro-antd` based
-+ Responsive Layout
-+ I18n
-+ ACL
-+ Lazy load Assets
-+ UI Router States
-+ Multiple color options
-+ Less preprocessor
-+ Well organized & commented code
-+ Simple upgrade
-+ Hot Module Replacement
-+ Support Docker deploy
-+ Support [Electron](http://ng-alain.com/docs/cli#electron) packager(just via @delon/cli)
++ 基于 `ng-zorro-antd`
++ 响应式
++ 国际化
++ ACL访问控制
++ 延迟加载及良好的启用画面
++ 良好的UI路由设计
++ 十种颜色版本
++ Less预编译
++ 良好的目录组织结构
++ 简单升级
++ 模块热替换
++ 支持Docker部署
++ 支持[Electron](http://ng-alain.com/docs/cli#electron)打包（限cli构建）
 
-## App Shots
+## 应用截图
 
 ![desktop](https://github.com/cipchk/delon/blob/master/_screenshot/desktop.png)
 ![ipad](https://github.com/cipchk/delon/blob/master/_screenshot/ipad.png)

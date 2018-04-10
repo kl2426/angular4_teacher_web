@@ -1,0 +1,79 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    .m-mycollection{
+        .my-top{
+            margin-bottom: 15px;
+            button{
+                &[nzType=primary]{
+
+                }
+                &[nzType=default]{
+
+                }
+            }
+            .ant-btn-primary {
+                color: #fff;
+                background-color: #72cfb1;
+                border-color: #72cfb1;
+            }
+            .ant-btn:hover, .ant-btn:focus {
+                color: #72cfb1;
+                background-color: #fff;
+                border-color: #72cfb1;
+            }
+        }
+        .my-list{
+            .list-search{
+                nz-input-group{
+                    float: right;
+                    width: 200px;
+                }
+            }
+            .list-table{
+                margin-top: 20px;
+                .ant-table-tbody{
+                    > tr{
+                        > td{
+                            border-bottom: 0;
+                        }
+                    }
+                }
+                nz-table{
+                    .ant-table-thead{
+                        > tr{
+                            > th{
+                                background-color: transparent;
+                                border-bottom: 0;
+                            }
+                        }
+                    }
+                    
+                }
+                .my-title{
+                    img{
+                        vertical-align: top;
+                        margin-right: 10px;
+                    }
+                    span{
+                        display: inline-block;
+                        height: 32px;
+                        line-height: 32px;
+                        max-width: 100%;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+                .my-option{
+                    > a{
+                        margin-left: 15px;
+                        &:first-child{
+                            margin-left: 0;
+                        }
+                    }
+                } 
+            }
+        }
+    }
+}

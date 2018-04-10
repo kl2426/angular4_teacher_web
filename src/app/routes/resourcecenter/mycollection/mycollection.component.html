@@ -1,0 +1,66 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container">
+        <!--  内容  -->
+        <div class="clearfix">
+            <!-- left -->
+            <div class="index-left">
+                <!-- nav -->
+                <app-leftnav class="g-leftnav" (onVoted)="click_nav($event)"></app-leftnav>
+            </div>
+            <!-- right -->
+            <div class="index-right">
+                <!-- main -->
+                <!--  我的收藏   -->
+                <div class="m-mycollection">
+                    <div class="my-top">
+                        <button nz-button nzType="primary">加入授课</button>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button nz-button nzType="default">取消收藏</button>
+                    </div>
+                    <div class="m-box">
+                        <div class="my-list">
+                            <div class="list-search clearfix">
+                                <nz-input-group nzSuffixIcon="anticon anticon-search">
+                                    <input type="text" nz-input placeholder="搜索">
+                                </nz-input-group>
+                            </div>
+                            <div class="list-table">
+                                <nz-table #rowSelectionTable [nzData]="data" (nzCurrentPageDataChange)="currentPageDataChange($event)" (nzPageIndexChange)="refreshStatus()"
+                                    (nzPageSizeChange)="refreshStatus()">
+                                    <thead>
+                                        <tr>
+                                            <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                                            <th>文件名</th>
+                                            <th style="text-align: center;">文件来源</th>
+                                            <th style="text-align: center;">收藏时间</th>
+                                            <th style="text-align: center;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of rowSelectionTable.data">
+                                            <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus($event)"></td>
+                                            <td class="my-title">
+                                                <img src="../../../../assets/img/icon/icon-doc.png" />
+                                                <span style="width:350px;">{{data.name}}</span>
+                                            </td>
+                                            <td style="text-align: center;">{{data.age}}</td>
+                                            <td style="text-align: center;">{{data.address}}</td>
+                                            <td class="my-option" style="text-align: center;">
+                                                <a>加入授课</a>
+                                                <a>取消收藏</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

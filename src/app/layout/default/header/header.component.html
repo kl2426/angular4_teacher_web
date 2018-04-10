@@ -1,0 +1,37 @@
+<div class="m-header">
+    <div class="container">
+        <div class="clearfix">
+            <div class="header-top">
+                <div class="header-logo">
+                    <a href="#">
+                        <img src="assets/img/logo.png" />
+                    </a>
+                </div>
+                <div class="header-loginout" (click)="loginout()">
+                    <i class="anticon anticon-poweroff"></i>
+                    <span>退出</span>
+                </div>
+                <div class="header-nav">
+                    <ul class="clearfix">
+                        <li [ngClass]="{'active':item.active}" *ngFor="let item of view_data.menu" (click)="click_menu(item)">
+                            <a>
+                                <span>{{item.text}}</span>
+                            </a>
+                            <ul>
+                                <li routerLink="{{item2.link}}" routerLinkActive="active" *ngFor="let item2 of item.children">
+                                    <a>
+                                        <span>{{item2.text}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--      -->
+    <div class="header-bg"></div>
+
+</div>

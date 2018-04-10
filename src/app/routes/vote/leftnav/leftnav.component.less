@@ -1,0 +1,93 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // left-nav
+    .m-left-nav{
+
+        nz-cascader{
+            border-radius: 6px;
+            width: 100%;
+            .ant-cascader-input.ant-input{
+                height: 48px;
+                border:0;
+            }
+            .ant-cascader-picker:focus .ant-cascader-input {
+                border-color: #73ceb1;
+                outline: 0;
+                box-shadow: 0 0 0 2px rgba(16, 142, 233, 0.2);
+            }
+            .anticon-down{
+                // font-size: 16px;
+                // color: rgba(0, 0, 0, 0.43);
+                color: #000;
+            }
+            .anticon-down:before{
+                // content:"\E606";
+            }
+            .ant-cascader-picker-label{
+                // font-size: 16px;
+            }
+        }
+
+        .left-nav-chapter{
+            width: 248px;
+            margin-top: 12px;
+            padding-bottom: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            > h4{
+                padding: 20px 0 10px 20px;
+                font-size: 16px;
+            }
+            .ant-menu-inline{
+                border-right: 0;
+            }
+            .ant-menu-submenu-title:after{
+                font-size: 18px;
+                content:"";
+            }
+            .ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
+                color: #fff;
+                background-color: #62bba8;
+            }
+            .ant-menu-submenu-open{
+               > .ant-menu-submenu-title{
+                    background-color: #ecf6fd;
+                } 
+            }
+            .ant-menu-submenu-selected.ant-menu-submenu-open{
+                > .ant-menu-submenu-title{
+                    background-color: #74d4c0;
+                }
+            }
+            .ant-menu-item{
+                transition:none;
+                &::after{
+                    border:0;
+                    transition:none;
+                }
+            }
+            .ant-menu-item.active,
+            .ant-menu-item.ant-menu-item-selected{
+                color: #fff;
+                background-color: #62bba8;
+                &::after{
+                    content: '';
+                    border: 0;
+                }
+                &:hover{
+                    color: #fff;
+                    background-color: #62bba8;
+                }
+            }
+            //
+            .left-nav-chapter-4{
+                .ant-menu-submenu-title{
+                    padding-left: 65px !important;
+                }
+                .ant-menu-item{padding-left: 85px !important;}
+            }
+        }
+    }
+}

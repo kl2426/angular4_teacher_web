@@ -1,0 +1,137 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // 我的云盘
+    .m-mycloudplate{
+        .my-top{
+            margin-bottom: 10px;
+            button{
+
+            }
+        }
+        .my-list{
+            .list-top{
+                margin: 10px 0;
+                .top-left{
+                    float: left;
+                    a{
+                        display: inline-block;
+                        cursor: default;
+                        margin-right: 10px;
+                        color: #000;
+                        &.active{
+                            cursor: pointer;
+                            color: #73ceb1;
+                        }
+                    }
+                    span{
+                        position: relative;
+                        display: inline-block;
+                        padding: 0 5px;
+                        padding-left: 20px;
+                        color: #000;
+                        &.active{
+                            color: #73ceb1;
+                            cursor: pointer;
+                        }
+                        &::after{
+                            display: block;
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 20px;
+                            height: 100%;
+                            line-height: 100%;
+                            font-style: normal;
+                            margin-top: 5px;
+                            text-align: center;
+                            text-transform: none;
+                            line-height: 1;
+                            text-rendering: optimizeLegibility;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            font-family: anticon!important;
+                            content: "\e61f";
+                        }
+                        &:first-child::after{
+                            content: '';
+                        }
+                    }
+                }
+                .top-right{
+                    float: right;
+                    nz-input-group{
+
+                    }
+                }
+            }
+            
+        }
+        .my-table{
+            margin-top: 20px;
+            .ant-table-tbody{
+                > tr{
+                    > td{
+                        border-bottom: 0;
+                    }
+                }
+            }
+            nz-table{
+                .ant-table-thead{
+                    > tr{
+                        > th{
+                            background-color: transparent;
+                            border-bottom: 0;
+                        }
+                    }
+                }
+                
+            }
+            .my-title{
+                position: relative;
+                img{
+                    vertical-align: top;
+                    margin-right: 10px;
+                    height: 32px;
+                }
+                span{
+                    display: inline-block;
+                    height: 32px;
+                    line-height: 32px;
+                    max-width: 100%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    &.folder{
+                        cursor: pointer;
+                    }
+                }
+                .my-title-share{
+                    display: none;
+                    position: absolute;
+                    text-align: right;
+                    right: 0;
+                    top: 24px;
+                    width: 200px;
+                    height: 20px;
+                    background-color: transparent;
+                    i{
+                        font-size: 20px;
+                        margin: 0 10px;
+                    }
+                }
+                &:hover .my-title-share{
+                    display: block;
+                }
+            }
+            .my-option{
+                > a{
+                    margin-left: 15px;
+                    &:first-child{
+                        margin-left: 0;
+                    }
+                }
+            } 
+        }
+    }
+}

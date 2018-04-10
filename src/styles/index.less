@@ -1,0 +1,100 @@
+// 建议所有项目自定义样式放在该文件夹下
+.clearfix:before,.clearfix:after { 
+content:""; 
+display:table; 
+} 
+.clearfix:after { clear:both; }/* For IE 6/7 (trigger hasLayout) */ 
+.clearfix { zoom:1; } 
+
+// 宽度
+.container{
+    width: 1395px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+//   中等宽度
+.container-mid{width: 1100px;}
+
+
+
+a:focus,
+a{text-decoration: none;}
+li{list-style: none; }
+ul{padding-left: 0;margin-bottom: 0;}
+
+
+
+
+// 
+// index-main
+.m-main{
+    padding-top: 22px;
+    padding-bottom: 50px;
+    // 
+    .index-left{
+        float: left;
+    }
+    // 
+    .index-right{
+        float: right;
+        width: 1100px;
+    }
+}
+
+// page
+.m-page{
+    text-align: center;
+    nz-pagination{
+        display: inline-block;
+    }
+    p{
+        margin: 15px 0; 
+    }
+    .ant-pagination-item{
+        min-width: 40px;
+    }
+    .ant-pagination-prev, .ant-pagination-next, .ant-pagination-jump-prev, .ant-pagination-jump-next{
+        min-width: 40px;
+    }
+    .ant-pagination-item:focus, .ant-pagination-item:hover {
+        transition: all .3s;
+        border-color: #73ceb1;
+    }
+    .ant-pagination-prev:focus .ant-pagination-item-link, .ant-pagination-next:focus .ant-pagination-item-link, .ant-pagination-prev:hover .ant-pagination-item-link, .ant-pagination-next:hover .ant-pagination-item-link {
+        border-color: #73ceb1;
+        color: #73ceb1;
+    }
+    .ant-pagination-item-active,
+    .ant-pagination-item-active:focus, .ant-pagination-item-active:hover{
+        background-color: #73ceb1;
+        border-color: #73ceb1;
+    }
+    .ant-pagination-item:focus a, .ant-pagination-item:hover a {
+        color: #73ceb1;
+    }
+    .ant-pagination-item-active a, .ant-pagination-item-active:focus a, .ant-pagination-item-active:hover a {
+        color: #fff;
+    }
+
+}
+
+//
+.m-box{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    -moz-box-shadow:0px 1px 4px #efefef; -webkit-box-shadow:0px 1px 4px #efefef; box-shadow:0px 1px 4px #efefef;
+}
+
+
+
+//   modal
+//  modal
+.vertical-center-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
