@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 
 import { TokenService } from './../../../core/net/token.service';
 
+import { toTreeData, dgTree } from 'app/utils/tree';
+
 
 export interface resData {
     code: string;
@@ -42,10 +44,32 @@ export class HeaderComponent implements OnInit {
             console.log(res);
             if(res.code === '0'){
                 this.view_data.menu = res.data;
-                this.view_data.menu[0].active = true;
-                this.view_data.menu[0].children[0].active = true;
+                //
+                this.select_menu(this.view_data.menu);
             }
         })
+    }
+
+    //   选中
+    select_menu(items:any){
+        //
+        const url_arr = this.router.url.split('/');
+        const url_arr_url = [];
+        const temp_url_arr = [];
+        for (let val of url_arr) {
+            temp_url_arr.push(val);
+            url_arr_url.push(temp_url_arr.join('/'));
+        }
+        //
+        dgTree(items, 'children', (item) => {
+            item.active = false;
+            for(let val of url_arr_url){
+                if(item.link === val){
+                    item.active = true;
+                }
+            }
+        });
+
     }
 
 
@@ -56,6 +80,10 @@ export class HeaderComponent implements OnInit {
             i.active = false;
         }
         item.active = true;
+        if (item.children && item.children.length > 0){
+            this.router.navigate([item.children[0].link]);
+        }
+
     }
 
     //   点击菜单
@@ -86,6 +114,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         //   查询列表
         this.getMenu();
+
 
     }
 

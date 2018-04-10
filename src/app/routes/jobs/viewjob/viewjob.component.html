@@ -1,0 +1,152 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob" [ngClass]="{'hidden':!(step==='list')}">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form [formGroup]="validateForm" (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">班级选择</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="orgCode" nzPlaceHolder="选择班级">
+                                                <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">作业类型</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="jobType" nzPlaceHolder="选择作业类型">
+                                                <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.type"></nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">作业名称</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" nz-input formControlName="jobName" placeholder="输入作业名称">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">附&nbsp;件</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-radio-group formControlName="isAttach">
+                                                <label nz-radio nzValue="">不限</label>
+                                                <label nz-radio nzValue="1">有</label>
+                                                <label nz-radio nzValue="0">无</label>
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">起止时间</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" id="viewjob_date" formControlName="date" nz-input placeholder="选择起止时间">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4"></nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4"></nz-form-label>
+                                        <nz-form-control [nzSpan]="8">
+                                            <button nz-button [nzType]="'primary'">搜索</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="viewjob-list">
+                        <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>作业名称</th>
+                                    <th style="text-align: center;">开始时间</th>
+                                    <th style="text-align: center;">结束时间</th>
+                                    <th style="text-align: center;">接收班级</th>
+                                    <th style="text-align: center;">完成数/总数</th>
+                                    <th style="text-align: center;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of rowSelectionTable.data">
+                                    <td class="viewjob-table-title">{{data.jobName}}</td>
+                                    <td style="text-align: center;">{{data.finishDate.substr(0,16)}}</td>
+                                    <td style="text-align: center;">{{data.sendDate.substr(0,16)}}</td>
+                                    <td style="text-align: center;">{{data.orgCode}}</td>
+                                    <td style="text-align: center;">{{data.finishCount}}</td>
+                                    <td class="my-option" style="text-align: center;">
+                                        <a (click)="Info(data.jobId)">详情</a>
+                                        <a>删除</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div class="m-table-page" *ngIf="view_data.res.row.length > 0">
+                            <nz-pagination [nzPageIndex]="view_data.form.pageNum" [nzTotal]="view_data.res.total" nzShowSizeChanger [nzPageSize]="view_data.form.pageSize" (nzPageIndexChange)="page_change($event)" (nzPageSizeChange)="size_change($event)"></nz-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--   info   -->
+            <div class="m-viewjob-info" [ngClass]="{'hidden':!(step==='info')}">
+                <div class="m-box">
+                    <div class="info-bc">
+                        <button nz-button [nzType]="'primary'" (click)="click_back()"><i class="anticon anticon-left"></i>返回</button>
+                    </div>
+                    <div class="info-title">
+                        <div class="info-header">作业名称</div>
+                        <h3>{{view_data.info.jobName}}</h3>
+                        <p>接收班级：{{view_data.info.jobName}}</p>
+                    </div>
+                    <div class="info-body">
+                        <div class="info-header">作业内容</div>
+                        <div class="body-body">
+                             {{view_data.info.jobContent}}
+                        </div>
+                    </div>
+                    <div class="info-file">
+                        <ul class="clearfix">
+                            <li *ngFor="let item of view_data.info.jobAttachs"><a target="_blank" href="{{item.fileUrl}}">{{item.fileName}}</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

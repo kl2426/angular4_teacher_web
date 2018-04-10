@@ -19,11 +19,14 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
-//   Cloudresource
+//   Cloudresource  资源中心
 import { CloudresourceComponent } from './resourcecenter/cloudresource/cloudresource.component';
 import { SchoolresourceComponent } from './resourcecenter/schoolresource/schoolresource.component';
 import { MycollectionComponent } from './resourcecenter/mycollection/mycollection.component';
 import { MycloudplateComponent } from './resourcecenter/mycloudplate/mycloudplate.component';
+
+//   jobs  作业 
+import { ViewjobComponent } from './jobs/viewjob/viewjob.component';
 
 const routes: Routes = [
     {
@@ -47,6 +50,19 @@ const routes: Routes = [
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },
+    {
+        path: 'jobs',
+        component: LayoutDefaultComponent,
+        children: [
+            { path: '', redirectTo: 'viewjob', pathMatch: 'full' },
+            { path: 'viewjob', component: ViewjobComponent, data: { title: '作业查看' } },
+        ]
+    },
+
+
+
+
+
     // // 全屏布局
     // {
     //     path: 'data-v',

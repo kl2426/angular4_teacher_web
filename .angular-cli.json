@@ -18,12 +18,14 @@
         "testTsconfig": "tsconfig.spec.json",
         "prefix": "app",
         "styles": [
-            "styles.less"
+            "styles.less",
+            "assets/lib/laydate/theme/default/laydate.css"
         ],
         "scripts": [
             "../node_modules/@antv/g2/dist/g2.min.js",
             "../node_modules/@antv/data-set/dist/data-set.min.js",
-            "../node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js"
+            "../node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js",
+            "assets/lib/laydate/laydate.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

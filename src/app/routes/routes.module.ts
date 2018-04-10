@@ -31,9 +31,10 @@ import { MycloudplateService } from './resourcecenter/mycloudplate/mycloudplate.
 
 //   module
 import { VoteModule } from './vote/vote.module';
+import { JobsModule } from './jobs/jobs.module';
 
 @NgModule({
-    imports: [SharedModule, RouteRoutingModule, VoteModule ],
+    imports: [SharedModule, RouteRoutingModule, VoteModule, JobsModule],
     declarations: [
         DashboardV1Component,
         DashboardAnalysisComponent,
@@ -49,7 +50,7 @@ import { VoteModule } from './vote/vote.module';
         Exception403Component,
         Exception404Component,
         Exception500Component,
-
+        
         // index
         CloudresourceComponent,
         SchoolresourceComponent,
