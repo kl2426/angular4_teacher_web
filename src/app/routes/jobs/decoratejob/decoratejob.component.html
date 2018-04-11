@@ -1,0 +1,161 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form [formGroup]="validateForm" (ngSubmit)="sendJobs()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="24" class="job-class">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="2">班级选择</nz-form-label>
+                                        <nz-form-control [nzSpan]="22">
+                                            <label nz-checkbox (click)="click_select_class(item)" *ngFor="let item of view_data.class">{{item.orgName}}</label>
+                                            <nz-form-explain *ngIf="validateForm.get('orgCodeArr').dirty && validateForm.get('orgCodeArr').errors">班级必选</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">学科选择</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="subject" nzPlaceHolder="选择作业类型">
+                                                <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.subject"></nz-option>
+                                            </nz-select>
+                                            <nz-form-explain *ngIf="validateForm.get('subject').dirty && validateForm.get('subject').errors">学科必选</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">作业类型</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="jobType" nzPlaceHolder="选择作业类型">
+                                                <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.type"></nz-option>
+                                            </nz-select>
+                                            <nz-form-explain *ngIf="validateForm.get('jobType').dirty && validateForm.get('jobType').errors">作业类型必选</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">作业名称</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" nz-input formControlName="jobName" placeholder="输入作业名称">
+                                            <nz-form-explain *ngIf="validateForm.get('jobName').dirty && validateForm.get('jobName').errors">作业名称不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4">截止时间</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" id="viewjob_date" formControlName="finishDate" nz-input placeholder="选择截止时间">
+                                            <nz-form-explain *ngIf="validateForm.get('finishDate').dirty && validateForm.get('finishDate').errors">截止时间不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="24" class="job-edit">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="2">作业内容</nz-form-label>
+                                        <nz-form-control [nzSpan]="22">
+                                            <div class="word-edit">
+                                                <div class="edit-btn">
+                                                    <!-- 云资源导入 -->
+                                                    <app-modal-resources [name]="'resources'" (onVoted)="click_modal($event)"></app-modal-resources>
+                                                     &nbsp;
+                                                    <!-- 云盘导入 -->
+                                                    <app-modal-resources [name]="'disk'" (onVoted)="click_modal($event)"></app-modal-resources>
+                                                     &nbsp;
+                                                    <!-- 本地导入 -->
+                                                    <a nz-button [nzType]="'primary'" (click)="modal_upload.isVisibleMiddle = true">本地导入</a>
+                                                     &nbsp;
+                                                    <!-- 组卷导入 -->
+                                                    <app-modal-resources [name]="'paper'" (onVoted)="click_modal($event)"></app-modal-resources>
+                                                </div>
+                                                <div class="edit-dom">
+                                                    <div id="edit-edit">
+                                                        <!--   富文本框   -->
+                                                    </div>
+                                                    <nz-form-explain *ngIf="validateForm.get('jobContent').dirty && validateForm.get('jobContent').errors">作业内容不能为空</nz-form-explain>
+                                                </div>
+                                                <div class="edit-file">
+                                                    <ul class="clearfix">
+                                                        <li *ngFor="let item of view_data.file_arr">
+                                                            <a>
+                                                                <i class="anticon anticon-paper-clip"></i>
+                                                                <span title="{{item.fileName}}">{{item.fileName}}</span>
+                                                                <b>删除</b>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="24">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="2">作业发送</nz-form-label>
+                                        <nz-form-control [nzSpan]="22">
+                                            <nz-radio-group formControlName="sendType">
+                                                <label nz-radio nzValue="1">即时发送消息</label>
+                                                <label nz-radio nzValue="2">定时发送本次作业</label>
+                                            </nz-radio-group>
+                                            <input type="text" [ngClass]="{'hidden':validateForm.get('sendType').value!=='2'}" id="viewjob_date_two" formControlName="sendDate" nz-input style="width:200px;" placeholder="选择定时时间">
+                                            <nz-form-explain *ngIf="validateForm.get('sendDate').dirty && validateForm.get('sendDate').errors">发送时间不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="24" class="job-btn">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-control [nzSpan]="24">
+                                            <button nz-button >重置</button>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button nz-button [nzType]="'primary'">发送</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+
+
+                        <!-- 本地导入文件  -->
+                        <!--  文件上传  -->
+                        <nz-modal [(nzVisible)]="modal_upload.isVisibleMiddle" nzTitle="上传文件" (nzOnCancel)="modal_upload.isVisibleMiddle = false"
+                            [nzFooter]="null" (nzOnOk)="newFileForm()">
+                            <nz-upload nzType="drag" [nzMultiple]="true" [nzData]="upfileForm" [nzLimit]="2" nzAction="{{view_data.upfile_path}}" (nzChange)="upfileHandleChange($event)">
+                                <p class="ant-upload-drag-icon">
+                                    <i class="anticon anticon-inbox"></i>
+                                </p>
+                                <p class="ant-upload-text">点击或拖动文件到这个区域上传</p>
+                                <p class="ant-upload-hint">支持同时上传多个文件</p>
+                            </nz-upload>
+                        </nz-modal>
+                        <!--  /文件上传  -->
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

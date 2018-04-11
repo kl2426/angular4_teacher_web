@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { _HttpClient } from '@delon/theme';
 
+import { environment } from '@env/environment';
 
 export interface ResourceCloudfiles {
     pageNum: string;
@@ -19,7 +20,7 @@ export interface ResourceCloudfiles {
 
 @Injectable()
 //  首页服务
-export class VoteService {
+export class DecoratejobService {
 
     constructor(
         private http: _HttpClient,
@@ -28,36 +29,68 @@ export class VoteService {
         // 
     }
 
+
+    //   上传文件地址
+    upfilePath = environment.SERVER_URL + 'v1/jobattachs/uploadAttachment';
+
+
+
     /**
-     * 获取资源目录
+     * 获取班级
      * 
      */
-    getResource(dirCode: string, level: string, pDirId: string) {
-        return this.http.get('/v1/resource/dirs', {
-            dirCode: dirCode,
+    getClass(level: any) {
+        return this.http.get('v1/sys/orgs/getClass', {
             level: level,
-            pDirId: pDirId,
         })
             .catch(this.handleError);
     }
 
 
     /**
-     * 获取云资源类别
+     * 获取作业类型
      * 
      */
-    getResourceType(dictType: string) {
-        return this.http.get('/v1/sys/dicts/type/' + dictType)
+    getType() {
+        return this.http.get('v1/sys/dicts/type/job_type')
             .catch(this.handleError);
     }
 
 
     /**
-     * 获取资源列表
+     * 获取学科
      * 
      */
-    getResourceCloudfiles(obj: ResourceCloudfiles) {
-        return this.http.get('/v1/resource/cloudfiles', obj)
+    getSubject() {
+        return this.http.get('v1/sys/dicts/type/subject')
+            .catch(this.handleError);
+    }
+
+
+
+    /**
+     * 获取试卷列表
+     * 
+     */
+    getPapers(pageNum:any, pageSize:any, dirId:any, paperType:any) {
+        return this.http.get('v1/resource/papers/',{
+            pageNum: pageNum,
+            pageSize: pageSize,
+            dirId: dirId,
+            paperType: paperType,
+        })
+            .catch(this.handleError);
+    }
+
+
+    
+
+    /**
+     * 发布作业
+     * 
+     */
+    postJobs(obj:any) {
+        return this.http.post('v1/jobs/', obj)
             .catch(this.handleError);
     }
 
@@ -65,12 +98,12 @@ export class VoteService {
 
 
 
-    //========云盘导入
 
 
 
-    
-    //========/云盘导入
+
+
+
 
 
 

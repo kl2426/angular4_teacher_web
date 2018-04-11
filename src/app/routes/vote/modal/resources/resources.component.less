@@ -1,0 +1,39 @@
+@import '~@delon/theme/styles/default';
+
+
+//   弹窗
+.m-modal-resources{
+    .resources-body{
+        overflow: hidden;
+        .modal-left{
+            float: left;
+            border:solid 1px #eee;
+            width: 48%;
+            height: 300px;
+            overflow: auto;
+        }
+        .modal-right{
+            float: right;
+            border:solid 1px #eee;
+            width: 48%;
+            height: 300px;
+            overflow: auto;
+            ul{
+                li{
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: #000;
+                    a{
+                        margin-left: 5px;
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+}
+
+:host ::ng-deep {
+    
+}

@@ -1,0 +1,91 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // left-nav
+    .m-viewjob{
+        .viewjob-header{
+            padding-bottom: 50px;
+            > form{
+                nz-form-item{
+                    margin-bottom: 10px;
+                }
+                nz-form-label{
+                    label{
+                        &::after{
+                            content: '';
+                        }
+                    }
+                }
+                button[nz-button]{
+                    min-width: 100px;
+                }
+                .job-class{
+                    label[nz-checkbox]{
+                        &:first-child{
+                            margin-left: 8px;
+                        }
+                    }
+                }
+                .job-edit{
+                    margin-top: 60px;
+                    .word-edit{
+                        .edit-btn{
+                            text-align: right;
+                            margin-top: -40px;
+                            margin-bottom: 5px;
+                        }
+                        .edit-dom{
+                            position: relative;
+                            z-index: 1;
+                        }
+                        .edit-file{
+                            margin-top: 10px;
+                            ul{
+                                li{
+                                    float: left;
+                                    width: 33%;
+                                    a{
+                                        cursor: default;
+                                        i{
+                                            vertical-align: top;
+                                            margin-top: 8px;
+                                            margin-right: 5px;
+                                            font-size: 18px;
+                                            color: #73ceb1;
+                                        }
+                                        span{
+                                            display: inline-block;
+                                            max-width: 200px;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            text-overflow: ellipsis;
+                                            line-height: 34px;
+                                            height: 34px;
+                                            color: #000;
+                                        }
+                                        b{
+                                            display: inline-block;
+                                            margin-left: 8px;
+                                            vertical-align: top;
+                                            line-height: 34px;
+                                            height: 34px;
+                                            font-weight: normal;
+                                            cursor: pointer;
+                                            color: #73ceb1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .job-btn{
+                    text-align: center;
+                    margin: 50px 0;
+                }
+            }
+        }
+    }
+
+
+}

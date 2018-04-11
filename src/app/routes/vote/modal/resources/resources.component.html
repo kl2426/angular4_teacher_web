@@ -1,0 +1,21 @@
+<!--  云资源选择弹窗   -->
+
+<a nz-button [nzType]="'primary'" (click)="isVisible=true" >{{btn_title}}</a>
+
+<nz-modal class="m-modal-resources" [(nzVisible)]="isVisible" nzTitle="{{btn_title}}" (nzOnCancel)="isVisible=false" (nzOnOk)="handleOk()">
+    <div class="resources-body">
+        <div class="modal-left">
+            <nz-tree [nzTreeData]="view_data.resource_grade" [nzShowLine]="true" (nzClick)="tree_change($event)"></nz-tree>
+        </div>
+    
+        <div class="modal-right">
+            <ul>
+                <li *ngFor="let item of view_data.res.row; index as i">
+                    {{i + 1}}.
+                    <label nz-checkbox [(ngModel)]="item.checked"></label>
+                    <a title="{{item.title || item.name}}" (click)="item.checked=!item.checked">{{item.title || item.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nz-modal>

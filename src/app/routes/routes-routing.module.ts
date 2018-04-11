@@ -27,6 +27,7 @@ import { MycloudplateComponent } from './resourcecenter/mycloudplate/mycloudplat
 
 //   jobs  作业 
 import { ViewjobComponent } from './jobs/viewjob/viewjob.component';
+import { DecoratejobComponent } from './jobs/decoratejob/decoratejob.component';
 
 const routes: Routes = [
     {
@@ -56,6 +57,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'viewjob', pathMatch: 'full' },
             { path: 'viewjob', component: ViewjobComponent, data: { title: '作业查看' } },
+            { path: 'decoratejob', component: DecoratejobComponent, data: { title: '布置作业' } },
         ]
     },
 
