@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { _HttpClient } from '@delon/theme';
 
-import { environment } from '@env/environment';
 
 export interface ResourceCloudfiles {
     pageNum: string;
@@ -20,7 +19,7 @@ export interface ResourceCloudfiles {
 
 @Injectable()
 //  首页服务
-export class DecoratejobService {
+export class ClassroomtestService {
 
     constructor(
         private http: _HttpClient,
@@ -29,81 +28,62 @@ export class DecoratejobService {
         // 
     }
 
-
-    //   上传文件地址
-    upfilePath = environment.SERVER_URL + 'v1/jobattachs/uploadAttachment';
-    //   富文本编辑框上传图片地址
-    ueditUpfilePath = environment.SERVER_URL + 'v1/sys/notices/upload';
-
-
-
-    // /**
-    //  * 获取班级
-    //  * 
-    //  */
-    // getClass(level: any) {
-    //     return this.http.get('v1/sys/orgs/getClass', {
-    //         level: level,
-    //     })
-    //         .catch(this.handleError);
-    // }
-
-
     /**
-     * 获取作业类型
+     * 获取班级
      * 
      */
-    getType() {
-        return this.http.get('v1/sys/dicts/type/job_type')
-            .catch(this.handleError);
-    }
-
-
-    /**
-     * 获取学科
-     * 
-     */
-    getSubject() {
-        return this.http.get('v1/sys/dicts/type/subject')
-            .catch(this.handleError);
-    }
-
-
-
-    /**
-     * 获取试卷列表
-     * 
-     */
-    getPapers(pageNum:any, pageSize:any, dirId:any, paperType:any) {
-        return this.http.get('v1/resource/papers/',{
-            pageNum: pageNum,
-            pageSize: pageSize,
-            dirId: dirId,
-            paperType: paperType,
+    getClass(level: any) {
+        return this.http.get('/v1/sys/orgs/getClass', {
+            level: level,
         })
             .catch(this.handleError);
     }
 
 
-    
 
     /**
-     * 发布作业
+     * 获取学生列表
      * 
      */
-    postJobs(obj:any) {
-        return this.http.post('v1/jobs/', obj)
+    getAssessments(orgCode: any, assesDate: any, courseId:any) {
+        return this.http.get('v1/class/assessments/', {
+            orgCode: orgCode,
+            assesDate: assesDate,
+            courseId: courseId
+        })
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 获取缘由
+     * 
+     */
+    getScore_reason() {
+        return this.http.get('v1/sys/dicts/type/score_reason')
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 获取加减分
+     * 
+     */
+    getAdd_min_socre() {
+        return this.http.get('v1/sys/dicts/type/add_min_socre')
             .catch(this.handleError);
     }
 
 
 
-
-
-
-
-
-
+    /**
+     * 打分
+     * 
+     */
+    postAssessments(form:any) {
+        return this.http.post('v1/class/assessments/', form)
+            .catch(this.handleError);
+    }
 
 
 

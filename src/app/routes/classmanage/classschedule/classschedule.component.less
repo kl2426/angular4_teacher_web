@@ -1,0 +1,87 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // left-nav
+    .m-viewjob{
+        .viewjob-header{
+            padding-bottom: 30px;
+            > form{
+                nz-form-item{
+                    margin-bottom: 10px;
+                }
+                nz-form-label{
+                    label{
+                        &::after{
+                            content: '';
+                        }
+                    }
+                }
+                button[nz-button]{
+                    min-width: 120px;
+                }
+            }
+        }
+        .hedaer-date{
+            i{
+                float: left;
+                vertical-align: top;
+                margin-top: 3px;
+                padding: 5px;
+                cursor: pointer;
+                font-size: 20px;
+                color: #72cfb1;
+            }
+            nz-select{
+                float: left;
+                width: 60%;
+            }
+        }
+        
+    }
+
+    //  课程表
+    .m-classschedule-table{
+        margin-bottom: 100px;
+        table{
+            border: 0;
+            outline: 0;
+            width: 100%;
+            tr{
+                border: 0;
+                text-align: center;
+                th{
+                    border: solid 1px #72cfb1;
+                    height: 44px;
+                    background-color: #72cfb1;
+                    font-weight: bold;
+                    color: #fff;
+                    // &:first-child{
+                    //     border-top-left-radius: 10px;
+                    // }
+                    // &:last-child{
+                    //     border-top-right-radius: 10px;
+                    // }
+                }
+                td{
+                    border: solid 1px #ebebeb;
+                    height: 44px;
+                    span{
+                        color: #b1b1b1;
+                    }
+                }
+                // &:last-child{
+                //     td{
+                //         &:first-child{
+                //             border-bottom-left-radius: 10px;
+                //         }
+                //         &:last-child{
+                //             border-bottom-right-radius: 10px;
+                //         }
+                //     }
+                // }
+            }
+        }
+    }
+
+
+}

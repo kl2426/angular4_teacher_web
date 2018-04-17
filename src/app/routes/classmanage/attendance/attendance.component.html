@@ -1,0 +1,89 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.class_val" name="class_val">
+                                            <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <input type="text" id="viewjob_date" nz-input [(ngModel)]="view_data.form.tsDate" name="tsdate" placeholder="选择日期">
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!--   学生列表   -->
+                    <div class="m-attendance-list">
+                        <ul class="clearfix">
+                            <li *ngFor="let item of view_data.res.row">
+                                <a (click)="click_pro(item)">
+                                    <img *ngIf="item.sex === '1'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-001.png'}}" />
+                                    <img *ngIf="item.sex === '2'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-002.png'}}" />
+                                    <span title="{{item.studentName}}">{{item.studentName}}</span>
+                                </a>
+                                <template *ngFor="let item_t of view_data.type" style="display:block;">
+                                    <div class="list-status" *ngIf="item.tsType === item_t.dictCode" [ngStyle]="{'background-color': item_t.color}"><i class="arrow-down" [ngStyle]="{'border-top-color': item_t.color}"></i>{{item_t.dictName}}</div>
+                                </template>
+                            </li>
+                            <li *ngIf="!(view_data.res.row.length > 0)" style="width: 100%;text-align: center;font-size:16px;">
+                                <span>无数据</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--  考勤修改-弹窗  -->
+                    <nz-modal [(nzVisible)]="modal_attendance.isVisibleMiddle" nzTitle="考勤修改" (nzOnCancel)="modal_attendance.isVisibleMiddle = false"
+                        (nzOnOk)="edit_attendance()">
+                        <form nz-form>
+                            <nz-form-item style="margin-bottom:10px;">
+                                <nz-form-label [nzSm]="6" [nzXs]="24">姓名</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24">
+                                    {{view_data.form.studentName}}
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item style="margin-bottom:10px;">
+                                <nz-form-label [nzSm]="6" [nzXs]="24">班级</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24">
+                                    {{view_data.class_item.orgName}}
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item style="margin-bottom:10px;">
+                                <nz-form-label [nzSm]="6" [nzXs]="24">考勤情况</nz-form-label>
+                                <nz-form-control [nzSm]="18" [nzXs]="24">
+                                    <nz-radio-group [(ngModel)]="view_data.form.tsType" name="tstype">
+                                        <label nz-radio nzValue="{{item.dictCode}}" *ngFor="let item of view_data.type">{{item.dictName}}</label>
+                                    </nz-radio-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </form>
+                    </nz-modal>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

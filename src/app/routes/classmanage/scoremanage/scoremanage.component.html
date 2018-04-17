@@ -1,0 +1,170 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob" [ngClass]="{'hidden':!(step==='list')}">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <div nz-row [nzGutter]="24">
+                            <div nz-col [nzSpan]="24" style="text-align: right;margin-bottom: 10px;">
+                                <a nz-button nzType="primary">成绩导入</a>
+                                <a target="_blank" href="{{examsTemplateUrl}}">（下载导入模板）</a>
+                            </div>
+                        </div>
+
+                        <form nz-form  (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="9">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="5">考试时间</nz-form-label>
+                                        <nz-form-control [nzSpan]="19">
+                                            <input type="text" id="viewjob_date" [(ngModel)]="view_data.form.date" name="date" nz-input placeholder="选择考试时间">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="9">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="5">班级选择</nz-form-label>
+                                        <nz-form-control [nzSpan]="19">
+                                            <nz-select [(ngModel)]="view_data.form.classCode" name="classCode" nzPlaceHolder="选择班级">
+                                                <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="9">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="5">考试名称</nz-form-label>
+                                        <nz-form-control [nzSpan]="19">
+                                            <input type="text" nz-input [(ngModel)]="view_data.form.examName" name="examName" placeholder="输入考试名称">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="4"></nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="9">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="5"></nz-form-label>
+                                        <nz-form-control [nzSpan]="19">
+                                            <button nz-button [nzType]="'primary'">搜索</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="viewjob-list">
+                        <!-- <div style="text-align: right;">
+                            <button nz-button [nzType]="'primary'">成绩导入</button>
+                        </div>
+                        <br/> -->
+                        <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th nzShowCheckbox [(nzChecked)]="view_data.table.allChecked" [nzIndeterminate]="view_data.table.indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                                    <th style="text-align: center;">编号</th>
+                                    <th>考试名称</th>
+                                    <th style="text-align: center;">考试时间</th>
+                                    <th style="text-align: center;">考试班级</th>
+                                    <th style="text-align: center;">创建者</th>
+                                    <!-- <th style="text-align: center;">状态</th> -->
+                                    <th style="text-align: center;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of rowSelectionTable.data">
+                                    <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus($event)"></td>
+                                    <td style="text-align: center;">{{data.examId}}</td>
+                                    <td class="viewjob-table-title">{{data.examName}}</td>
+                                    <td style="text-align: center;">{{data.examDate.substr(0,16)}}</td>
+                                    <td style="text-align: center;">{{data.orgName}}</td>
+                                    <td style="text-align: center;">{{data.teacherName}}</td>
+                                    <!-- <td style="text-align: center;">{{data.status}}</td> -->
+                                    <td class="my-option" style="text-align: center;">
+                                        <!-- <a>发送</a> -->
+                                        <a (click)="Info(data)">详情</a>
+                                        <nz-popconfirm [nzTitle]="'确定要删除吗？'" (nzOnConfirm)="del_score(data)">
+                                            <a nz-popconfirm>删除</a>
+                                        </nz-popconfirm>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div class="m-table-page" *ngIf="view_data.res.row.length > 0">
+                            <nz-pagination [nzPageIndex]="view_data.form.pageNum" [nzTotal]="view_data.res.total" nzShowSizeChanger [nzPageSize]="view_data.form.pageSize" (nzPageIndexChange)="page_change($event)" (nzPageSizeChange)="size_change($event)"></nz-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--   info   -->
+            <div class="m-viewjob m-viewjob-info" [ngClass]="{'hidden':!(step==='info')}">
+                <div class="m-box">
+                    <div class="info-bc">
+                        <button nz-button [nzType]="'primary'" (click)="click_back()">
+                            <i class="anticon anticon-left"></i>返回</button>
+                    </div>
+
+
+                    <h3 style="text-align: center; margin:10px 0;font-size:20px;">{{view_data.info_title}}</h3>
+
+
+                    <div class="viewjob-list">
+                        <!-- <div style="text-align: right;">
+                                                <button nz-button [nzType]="'primary'">成绩导入</button>
+                                            </div>
+                                            <br/> -->
+                        <nz-table #rowSelectionTable2 [nzData]="view_data.info" [nzShowPagination]="false" [nzPageSize]="10000">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">姓名</th>
+                                    <th style="text-align: center;">总分/排名</th>
+                                    <th style="text-align: center;">语文/排名</th>
+                                    <th style="text-align: center;">数学/排名</th>
+                                    <th style="text-align: center;">英语/排名</th>
+                                    <th style="text-align: center;">体育/排名</th>
+                                    <th style="text-align: center;">美术/排名</th>
+                                    <th style="text-align: center;">音乐/排名</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of rowSelectionTable2.data">
+                                    <td style="text-align: center;">{{data.studentName}}</td>
+                                    <td style="text-align: center;">{{data.totalScore + '/' + data.totalRank}}</td>
+                                    <td style="text-align: center;">{{data.chinese}}</td>
+                                    <td style="text-align: center;">{{data.math}}</td>
+                                    <td style="text-align: center;">{{data.english}}</td>
+                                    <td style="text-align: center;">{{data.sport}}</td>
+                                    <td style="text-align: center;">{{data.art}}</td>
+                                    <td style="text-align: center;">{{data.music}}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+
+            
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

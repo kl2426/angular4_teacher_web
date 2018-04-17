@@ -1,0 +1,73 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.class_val" name="class_val">
+                                            <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzOffset]="1" [nzSpan]="10" class="hedaer-date">
+                                    <nz-form-item>
+                                        <i class="anticon anticon-caret-left" (click)="switch_week('prev')"></i>
+                                        <nz-select nzPlaceHolder="选择课程表" [(ngModel)]="view_data.week_val" name="week_val" nzDisabled>
+                                            <nz-option nzValue="{{item.val}}" nzLabel="{{item.name}}" *ngFor="let item of view_data.week_arr"></nz-option>
+                                        </nz-select>
+                                        <i class="anticon anticon-caret-right" (click)="switch_week('next')"></i>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="8">
+                                    <nz-form-item>
+                                        <div style="text-align: right;">
+                                            <a nz-button nzType="primary">课表导入</a>
+                                            <a target="_blank" href="{{classTemplateUrl}}">（下载导入模板）</a>
+                                        </div>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- table -->
+                    <div class="m-classschedule-table">
+                        <table border="0">
+                            <tr>
+                                <th colspan="2"></th>
+                                <th *ngFor="let item of view_data.class_schedule[0]">{{item.dayOfWeek}}</th>
+                            </tr>
+                            <tr *ngFor="let item of view_data.class_schedule">
+                                <td *ngIf="item[0].period_number > 0" [attr.rowspan]="item[0].period_number">{{item[0].period}}</td>
+                                <td>{{item[0].seq}}</td>
+                                <td *ngFor="let item2 of item">{{item2.subject}}<span *ngIf="item2.teacherName">（{{item2.teacherName}}）</span></td>
+                            </tr>
+                            <!--   无课表  -->
+                            <tr *ngIf="!(view_data.class_schedule.length > 0)">
+                                <td [attr.colspan]="0">无课表信息</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

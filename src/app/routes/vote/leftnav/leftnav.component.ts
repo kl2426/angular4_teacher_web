@@ -144,6 +144,7 @@ export class LeftnavComponent implements OnInit {
 
 
 
+
     ngOnInit() {
         //  载入资源目录
         const temp_obj = this._Injector.get(TokenService).resourceTree;

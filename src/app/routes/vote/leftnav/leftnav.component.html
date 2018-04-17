@@ -13,7 +13,18 @@
     <!--  -->
     <div class="left-nav-chapter">
         <h4>章节</h4>
-        <ul nz-menu [nzMode]="'inline'">
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <ul nz-menu [nzMode]="'inline'">
             <li nz-submenu *ngFor="let item of view_data.resource_chapter" [(nzOpen)]="item.isopen" (nzSelected)="item.isopen">
                 <span title (click)="click_nav(item)">{{item.label}}</span>
                 <ul>
@@ -40,6 +51,37 @@
                     </ng-template>
                 </ul>
             </li>
+        </ul> -->
+
+
+
+
+        <ul nz-menu [nzMode]="'inline'">
+            <li nz-submenu *ngFor="let item of view_data.resource_chapter" [(nzOpen)]="item.isopen">
+                <span title (click)="click_nav(item)">{{item.label}}</span>
+                <ul>
+                    <ng-container *ngFor="let item2 of item.children">
+                        <li nz-menu-item *ngIf="!(item2.children.length > 0)" (click)="click_nav(item2)">{{item2.label}}</li>
+                        <li nz-submenu *ngIf="item2.children.length > 0" [(nzOpen)]="item2.isopen">
+                            <span title (click)="click_nav(item2)">{{item2.label}}</span>
+                            <ul>
+
+                                <ng-container *ngFor="let item3 of item2.children">
+                                    <li nz-menu-item *ngIf="!(item3.children.length > 0)" (click)="click_nav(item3)">{{item3.label}}</li>
+                                    <li nz-submenu *ngIf="item3.children.length > 0" [(nzOpen)]="item3.isopen">
+                                        <span title (click)="click_nav(item3)">{{item3.label}}</span>
+                                        <ul>
+                                            <li nz-menu-item *ngFor="let item4 of item3.children" (click)="click_nav(item)">{{item4.label}}</li>
+                                        </ul>
+                                    </li>
+                                </ng-container>
+
+                            </ul>
+                        </li>
+                    </ng-container>
+                </ul>
+            </li>
         </ul>
+
     </div>
 </div>

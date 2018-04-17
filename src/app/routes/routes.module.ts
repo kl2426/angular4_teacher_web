@@ -32,9 +32,10 @@ import { MycloudplateService } from './resourcecenter/mycloudplate/mycloudplate.
 //   module
 import { VoteModule } from './vote/vote.module';
 import { JobsModule } from './jobs/jobs.module';
+import { ClassmanageModule } from './classmanage/classmanage.module';
 
 @NgModule({
-    imports: [SharedModule, RouteRoutingModule, VoteModule, JobsModule],
+    imports: [SharedModule, RouteRoutingModule, VoteModule, JobsModule, ClassmanageModule],
     declarations: [
         DashboardV1Component,
         DashboardAnalysisComponent,

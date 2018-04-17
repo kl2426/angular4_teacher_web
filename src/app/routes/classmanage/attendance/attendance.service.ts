@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { _HttpClient } from '@delon/theme';
 
+import { environment } from '@env/environment';
+
 
 export interface ResourceCloudfiles {
     pageNum: string;
@@ -18,8 +20,8 @@ export interface ResourceCloudfiles {
 
 
 @Injectable()
-//  首页服务
-export class ViewjobService {
+//  考勤
+export class AttendanceService {
 
     constructor(
         private http: _HttpClient,
@@ -28,47 +30,38 @@ export class ViewjobService {
         // 
     }
 
-    // /**
-    //  * 获取班级
-    //  * 
-    //  */
-    // getClass(level: any) {
-    //     return this.http.get('/v1/sys/orgs/getClass', {
-    //         level: level,
-    //     })
-    //         .catch(this.handleError);
-    // }
 
 
     /**
-     * 获取作业类型
+     * 获取学生列表
      * 
      */
-    getType() {
-        return this.http.get('/v1/sys/dicts/type/job_type')
+    getTslist(orgCode: any, tsDate) {
+        return this.http.get('v1/class/timesheets/gettslist',{
+            orgCode:orgCode,
+            tsDate:tsDate
+        })
             .catch(this.handleError);
     }
 
 
     /**
-     * 获取作业列表
+     * 获取考勤状态
      * 
      */
-    getList(form:any) {
-        return this.http.get('/v1/jobs/getJobList',form)
+    getTs_type() {
+        return this.http.get('v1/sys/dicts/type/ts_type')
             .catch(this.handleError);
     }
-
 
     /**
-     * 获取作业详情
+     * 修改学生考勤
      * 
      */
-    getInfo(jobId: any) {
-        return this.http.get('/v1/jobs/' + jobId)
+    postCourses(form:any) {
+        return this.http.post('v1/class/timesheets/updatets',form)
             .catch(this.handleError);
     }
-
 
 
 

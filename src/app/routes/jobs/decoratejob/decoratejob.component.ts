@@ -11,11 +11,7 @@ import * as moment from 'moment';
 import * as UEdit from 'wangeditor';
 
 import { DecoratejobService } from './decoratejob.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
-
-
-import { TokenService } from '../../../core/net/token.service';
-import { ElementData } from '@angular/core/src/view';
+import { ClassroomtestService } from '../../classmanage/classroomtest/classroomtest.service';
 
 
 declare let laydate;
@@ -31,6 +27,8 @@ export class DecoratejobComponent implements OnInit {
 
     constructor(
         public _DecoratejobService: DecoratejobService,
+        public _ClassroomtestService: ClassroomtestService,
+        private notification: NzNotificationService,
         public _Injector: Injector,
         private fb: FormBuilder,
         private message: NzMessageService,
@@ -86,7 +84,7 @@ export class DecoratejobComponent implements OnInit {
     //   获取班级
     private getClass() {
         //
-        this._DecoratejobService.getClass('3').subscribe((res) => {
+        this._ClassroomtestService.getClass('3').subscribe((res) => {
             if (res.code === '0') {
                 this.view_data.class = res.data;
             } else {
@@ -128,11 +126,12 @@ export class DecoratejobComponent implements OnInit {
     private postSendJobs(form:any) {
         //
         this._DecoratejobService.postJobs(form).subscribe((res) => {
-            console.log(res)
             if (res.code === '0') {
-                // this.view_data.subject = res.data;
+                //   发送成功
+                this.notification.create('success', '成功', '发送成功');
+                this.resetForm();
             } else {
-                // this.view_data.subject = [];
+                this.notification.create('error', '失败', res.message);
             }
         })
     }
@@ -174,7 +173,14 @@ export class DecoratejobComponent implements OnInit {
         }
     }
 
-
+    //   请空表单
+    resetForm(): void {
+        this.validateForm.reset();
+        for (const key in this.validateForm.controls) {
+            this.validateForm.controls[key].markAsPristine();
+            this.validateForm.controls[key].updateValueAndValidity();
+        }
+    }
 
 
 
@@ -230,6 +236,17 @@ export class DecoratejobComponent implements OnInit {
             temp_arr2.push(i.orgCode);
         }
         this.validateForm.controls.orgCodeArr.setValue(temp_arr2.join(','));
+    }
+
+
+    //  删除附件
+    click_del_file(item:any){
+        for(let i = 0; i < this.view_data.file_arr.length; i++){
+            if (this.view_data.file_arr[i].paperId === item.paperId){
+                this.view_data.file_arr.splice(i,1);
+                break;
+            }
+        }
     }
 
 
@@ -327,6 +344,17 @@ export class DecoratejobComponent implements OnInit {
         });
         //   富文本框
         this.uedit = new UEdit('#edit-edit');
+        this.uedit.customConfig.uploadImgServer = this._DecoratejobService.ueditUpfilePath;
+        this.uedit.customConfig.uploadFileName = 'fileName';
+        this.uedit.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+        this.uedit.customConfig.uploadImgMaxLength = 3;
+        this.uedit.customConfig.uploadImgHooks = {
+            customInsert: function (insertImg, result, editor) {
+                console.log(result);
+                insertImg(result.data[0]);
+            }
+        }
+
         this.uedit.create();
         //   取班级
         this.getClass();

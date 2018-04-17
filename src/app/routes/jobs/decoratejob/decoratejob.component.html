@@ -14,8 +14,8 @@
 
                                 <div nz-col [nzSpan]="24" class="job-class">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="2">班级选择</nz-form-label>
-                                        <nz-form-control [nzSpan]="22">
+                                        <nz-form-label nzRequired [nzSpan]="2">班级选择</nz-form-label>
+                                        <nz-form-control [nzSpan]="22" class="has-error">
                                             <label nz-checkbox (click)="click_select_class(item)" *ngFor="let item of view_data.class">{{item.orgName}}</label>
                                             <nz-form-explain *ngIf="validateForm.get('orgCodeArr').dirty && validateForm.get('orgCodeArr').errors">班级必选</nz-form-explain>
                                         </nz-form-control>
@@ -24,7 +24,7 @@
 
                                 <div nz-col [nzSpan]="12">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="4">学科选择</nz-form-label>
+                                        <nz-form-label nzRequired [nzSpan]="4">学科选择</nz-form-label>
                                         <nz-form-control [nzSpan]="12">
                                             <nz-select formControlName="subject" nzPlaceHolder="选择作业类型">
                                                 <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.subject"></nz-option>
@@ -36,7 +36,7 @@
 
                                 <div nz-col [nzSpan]="12">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="4">作业类型</nz-form-label>
+                                        <nz-form-label nzRequired [nzSpan]="4">作业类型</nz-form-label>
                                         <nz-form-control [nzSpan]="12">
                                             <nz-select formControlName="jobType" nzPlaceHolder="选择作业类型">
                                                 <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.type"></nz-option>
@@ -48,7 +48,7 @@
 
                                 <div nz-col [nzSpan]="12">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="4">作业名称</nz-form-label>
+                                        <nz-form-label nzRequired [nzSpan]="4">作业名称</nz-form-label>
                                         <nz-form-control [nzSpan]="12">
                                             <input type="text" nz-input formControlName="jobName" placeholder="输入作业名称">
                                             <nz-form-explain *ngIf="validateForm.get('jobName').dirty && validateForm.get('jobName').errors">作业名称不能为空</nz-form-explain>
@@ -58,7 +58,7 @@
 
                                 <div nz-col [nzSpan]="12">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="4">截止时间</nz-form-label>
+                                        <nz-form-label nzRequired [nzSpan]="4">截止时间</nz-form-label>
                                         <nz-form-control [nzSpan]="12">
                                             <input type="text" id="viewjob_date" formControlName="finishDate" nz-input placeholder="选择截止时间">
                                             <nz-form-explain *ngIf="validateForm.get('finishDate').dirty && validateForm.get('finishDate').errors">截止时间不能为空</nz-form-explain>
@@ -68,8 +68,8 @@
 
                                 <div nz-col [nzSpan]="24" class="job-edit">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="2">作业内容</nz-form-label>
-                                        <nz-form-control [nzSpan]="22">
+                                        <nz-form-label nzRequired [nzSpan]="2">作业内容</nz-form-label>
+                                        <nz-form-control [nzSpan]="22" class="has-error">
                                             <div class="word-edit">
                                                 <div class="edit-btn">
                                                     <!-- 云资源导入 -->
@@ -95,8 +95,8 @@
                                                         <li *ngFor="let item of view_data.file_arr">
                                                             <a>
                                                                 <i class="anticon anticon-paper-clip"></i>
-                                                                <span title="{{item.fileName}}">{{item.fileName}}</span>
-                                                                <b>删除</b>
+                                                                <span title="{{item.fileName || item.name}}">{{item.fileName || item.name}}</span>
+                                                                <b (click)="click_del_file(item)">删除</b>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -108,7 +108,7 @@
 
                                 <div nz-col [nzSpan]="24">
                                     <nz-form-item nzFlex>
-                                        <nz-form-label [nzSpan]="2">作业发送</nz-form-label>
+                                        <nz-form-label nzRequired [nzSpan]="2">作业发送</nz-form-label>
                                         <nz-form-control [nzSpan]="22">
                                             <nz-radio-group formControlName="sendType">
                                                 <label nz-radio nzValue="1">即时发送消息</label>
@@ -138,7 +138,7 @@
                         <!-- 本地导入文件  -->
                         <!--  文件上传  -->
                         <nz-modal [(nzVisible)]="modal_upload.isVisibleMiddle" nzTitle="上传文件" (nzOnCancel)="modal_upload.isVisibleMiddle = false"
-                            [nzFooter]="null" (nzOnOk)="newFileForm()">
+                            [nzFooter]="null" (nzOnOk)="modal_upload.isVisibleMiddle = false">
                             <nz-upload nzType="drag" [nzMultiple]="true" [nzData]="upfileForm" [nzLimit]="2" nzAction="{{view_data.upfile_path}}" (nzChange)="upfileHandleChange($event)">
                                 <p class="ant-upload-drag-icon">
                                     <i class="anticon anticon-inbox"></i>

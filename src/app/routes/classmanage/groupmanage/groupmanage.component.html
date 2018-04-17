@@ -1,0 +1,167 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob" *ngIf="step == 'list'">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.class_val" name="class_val">
+                                            <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+
+
+                                <div nz-col [nzOffset]="10" [nzSpan]="9" class="top-classroomtest">
+                                    <nz-form-item style="text-align: right;">
+                                        <a nz-button nzType="primary" (click)="click_edit_group()">微调分组</a>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!--   微调分组   -->
+                    <div class="m-groupmanage">
+                        <ul class="clearfix">
+                            <li *ngFor="let item of view_data.res.row" (click)="click_edit_group(item)">
+                                <div class="group-left">
+                                    <img src="assets/img/icon-user.png" />
+                                    <p>{{item.memTotal}}人</p>
+                                </div>
+                                <div class="group-right">
+                                    <h4 title="{{item.groupName}}">{{item.groupName}}</h4>
+                                    <a (click)="showDeleteConfirm(item)">解散</a>
+                                </div>
+                            </li>
+                            <li (click)="click_add()">
+                                <div class="group-add">
+                                    <img src="assets/img/bg-add.png" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+
+
+
+                </div>
+            </div>
+
+
+
+            <!--   添加   -->
+            <div class="m-viewjob" *ngIf="step == 'add'">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form>
+                            <div nz-row [nzGutter]="24">
+            
+
+                                <div nz-col [nzSpan]="8">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="7">小组命名</nz-form-label>
+                                        <nz-form-control [nzSpan]="17">
+                                            <input type="text" [(ngModel)]="view_data.add_title" name="add_title" nz-input placeholder="输入小组命名">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+            
+            
+                                <div nz-col [nzOffset]="6" [nzSpan]="10" class="top-classroomtest">
+                                    <nz-form-item style="text-align: right; margin-top:10px;">
+                                        <label nz-checkbox [(ngModel)]="view_data.org_list_all" name="org_list_all" (nzCheckedChange)="checkAll($event)">全选</label>
+                                    </nz-form-item>
+                                </div>
+            
+                            </div>
+                        </form>
+            
+                    </div>
+                    
+                    <!--  列表  -->
+                    <div class="m-attendance-list">
+                        <ul class="clearfix">
+                            <ng-container *ngFor="let item of view_data.org_list">
+                                <li *ngIf="item.isGroup == false">
+                                    <a (click)="item.checked = !item.checked" [ngClass]="{'active':item.checked}">
+                                        <img *ngIf="item.sex === '1'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-001.png'}}"
+                                        />
+                                        <img *ngIf="item.sex === '2'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-002.png'}}"
+                                        />
+                                        <span title="{{item.studentName}}">{{item.studentName}}</span>
+                                    </a>
+
+                                    <div class="list-checked">
+                                        <label nz-checkbox [(ngModel)]="item.checked"></label>
+                                    </div>
+                                </li>
+                            </ng-container>
+                            
+                            <li *ngIf="!(view_data.org_list.length > 0)" style="width: 100%;text-align: center;font-size:16px;">
+                                <span>无数据</span>
+                            </li>
+                        </ul>
+
+                        <!--  -->
+                        <div class="m-groupmanage-add-btn">
+                            <button nz-button nzType="default" (click)="step = 'list'">取消</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button nz-button nzType="primary" (click)="click_add_ok()">确定</button>
+                        </div>
+                    </div>
+            
+            
+            
+            
+                </div>
+            </div>
+
+
+
+            <!--   分组微调 弹窗   -->
+            <nz-modal class="m-modal-edit-group" [nzWidth]="'100%'" (nzAfterOpen)="edit_group()" [(nzVisible)]="modal_group.isVisibleMiddle" nzTitle="" (nzOnCancel)="modal_group.isVisibleMiddle = false"
+                (nzOnOk)="edit_attendance()">
+                
+                <!--   分组微调   -->
+                <form nz-form>
+                    <div class="modal-edit-group" id="multi">
+
+                        <div class="group-one tile" *ngFor="let item of view_data.res_group.row">
+                            <div class="one-header tile__name">
+                                <h3>{{item.groupName}}</h3>
+                                <span>{{item.groupMembers.length}}人</span>
+                            </div>
+                            <ul class="tile__list" [attr.data-groupId]="item.groupId">
+                                <li *ngFor="let item_2 of item.groupMembers" [attr.data-isLeader]="item_2.isLeader" [attr.data-studentCode]="item_2.studentCode" [attr.data-studentName]="item_2.studentName"><span>{{item_2.studentName}}</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-edit-group" *ngIf="!(view_data.res_group.row.length > 0)">
+                    
+                        <div class="group-null">
+                            无数据
+                        </div>
+                    
+                    </div>
+                </form>
+            </nz-modal>
+
+
+
+        </div>
+    </div>
+</div>

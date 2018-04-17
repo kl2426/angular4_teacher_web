@@ -13,8 +13,8 @@
                 </div>
                 <div class="header-nav">
                     <ul class="clearfix">
-                        <li [ngClass]="{'active':item.active}" *ngFor="let item of view_data.menu" (click)="click_menu(item)">
-                            <a>
+                        <li [ngClass]="{'active':item.active}" *ngFor="let item of view_data.menu">
+                            <a (click)="click_menu(item)">
                                 <span>{{item.text}}</span>
                             </a>
                             <ul>
@@ -26,12 +26,14 @@
                             </ul>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </div>
     </div>
 
     <!--      -->
-    <div class="header-bg"></div>
+    <div class="header-bg">
+    </div>
 
 </div>

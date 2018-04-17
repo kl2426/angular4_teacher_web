@@ -177,7 +177,7 @@ export class ModalResourcesComponent implements OnInit {
                 case 'paper':
                     for (let item of checked_arr) {
                         item.attachSrc = '4';
-                        item.paperId = item.id;
+                        item.paperId = item.paperId;
                     }
                     break;
             }

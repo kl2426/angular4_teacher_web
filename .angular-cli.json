@@ -19,13 +19,15 @@
         "prefix": "app",
         "styles": [
             "styles.less",
-            "assets/lib/laydate/theme/default/laydate.css"
+            "assets/lib/laydate/theme/default/laydate.css",
+            "assets/lib/sortable/sortable.css"
         ],
         "scripts": [
             "../node_modules/@antv/g2/dist/g2.min.js",
             "../node_modules/@antv/data-set/dist/data-set.min.js",
             "../node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js",
-            "assets/lib/laydate/laydate.js"
+            "assets/lib/laydate/laydate.js",
+            "assets/lib/sortable/sortable.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

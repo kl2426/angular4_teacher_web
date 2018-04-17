@@ -1,0 +1,218 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // left-nav
+    .m-viewjob{
+        .viewjob-header{
+            padding-bottom: 20px;
+            border-bottom: solid 1px #eee;
+            > form{
+                nz-form-item{
+                    margin-bottom: 10px;
+                }
+                nz-form-label{
+                    label{
+                        &::after{
+                            content: '';
+                        }
+                    }
+                }
+                button[nz-button]{
+                    min-width: 120px;
+                }
+            }
+        }
+        //
+        .top-classroomtest{
+            a[nz-button]{
+                min-width: 100px;
+            }
+        }
+        
+    }
+
+    //     考勤
+    .m-attendance-list{
+        ul{
+            margin: 20px 0;
+            li{
+                float: left;
+                position: relative;
+                width: 100px;
+                height: 110px;
+                margin: 10px 1px;
+                a{
+                    display: block;
+                    text-align: center;
+                    img{
+                        display: inline-block;
+                        vertical-align: top;
+                        border:solid 2px #dfdfdf;
+                        background-color: #fff;
+                        width:80px;
+                        height: 80px; 
+                        border-radius: 80px;
+                    }
+                    span{
+                        display: block;
+                        text-align: center;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        margin: 5px 0;
+                        font-size: 16px;
+                        color: #000;
+                    }
+                    &.active,
+                    &:hover{
+                        img{
+                            border-color: #72cfb1;
+                            -moz-box-shadow:0px 0px 10px #72cfb1; -webkit-box-shadow:0px 0px 10px #72cfb1; box-shadow:0px 0px 10px #72cfb1;
+                        }
+                    }
+                }
+                .list-status{
+                    position: absolute;
+                    display: inline-block;
+                    top: -10px;
+                    right: -15px;
+                    line-height: 20px;
+                    text-align: center;
+                    white-space: nowrap;
+                    padding: 4px 10px;
+                    border-radius: 40px;
+                    background-color: #ffd513;
+                    color: #fff;
+                    .arrow-down {
+                        position: absolute;
+                        bottom: -2px;
+                        left: 3px;
+                        width:0; 
+                        height:0; 
+                        border-left:5px solid transparent;
+                        border-right:5px solid transparent;
+                        border-top:5px solid #ffd513;
+                        -moz-transform:rotate(20deg);
+                        -webkit-transform:rotate(20deg);
+                        -o-transform:rotate(20deg);
+                        -ms-transform:rotate(20deg);
+                        transform:rotate(20deg);
+                    }
+                }
+                //
+                .list-checked{
+                    position: absolute;
+                    left: 10px;
+                    top: 0;
+                }
+                //
+                .list-mark{
+                    position: absolute;
+                    bottom: 24px;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                    span{
+                        display: inline-block;
+                        padding: 2px 10px;
+                        line-height: 20px;
+                        vertical-align: top;
+                        border-radius: 20px;
+                        margin: 0 1px;
+                        color: #fff;
+                        &.mark-z{
+                            background-color: rgba(114, 207, 117, 0.8);
+                        }
+                        &.mark-f{
+                            background-color: rgba(255, 55, 78, 0.7);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    //    分组管理
+    .m-groupmanage{
+        ul{
+            li{
+                float: left;
+                width: 280px;
+                background: url(assets/img/bg-card.png) no-repeat;
+                margin: 30px;
+                border-radius: 6px;
+                cursor: pointer;
+                .group-left{
+                    float: left;
+                    width: 94px;
+                    height: 150px;
+                    text-align: center;
+                    padding-top: 25px;
+                    img{
+                        width: 53px;
+                        height: 46px;
+                    }
+                    p{
+                        margin-top: 25px;
+                        font-size: 18px;
+                        color: #fff;
+                    }
+                }
+                .group-right{
+                    position: relative;
+                    float: right;
+                    width: 186px;
+                    height: 150px;
+                    h4{
+                        font-size: 18px;
+                        color: #fff;
+                        height: 52px;
+                        margin-top: 20px;
+                        line-height: 28px;
+                        margin-right: 10px;
+                        overflow : hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+                    a{
+                        position: absolute;
+                        bottom: 15px;
+                        right: 15px;
+                        display: inline-block;
+                        padding: 0 15px;
+                        text-align: center;
+                        height: 32px;
+                        line-height: 30px;
+                        border: solid 1px #fff;
+                        border-radius: 4px;
+                        color: #fff;
+                        &:hover{
+                            background-color: rgba(255, 255, 255, 0.3)
+                        }
+                    }
+                }
+                .group-add{
+
+                }
+                &:hover{
+                    -moz-box-shadow:0px 0px 10px #72cfb1; -webkit-box-shadow:0px 0px 10px #72cfb1; box-shadow:0px 0px 10px #72cfb1;
+                }
+            }
+        }
+    }
+
+    //  添加确定
+    .m-groupmanage-add-btn{
+        margin: 50px 0 100px 0;
+        text-align: center;
+        button{
+            min-width: 100px;
+        }
+    }
+
+
+
+}

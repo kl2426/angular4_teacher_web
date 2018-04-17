@@ -19,7 +19,7 @@ export interface ResourceCloudfiles {
 
 @Injectable()
 //  首页服务
-export class ViewjobService {
+export class ClassreportService {
 
     constructor(
         private http: _HttpClient,
@@ -28,48 +28,17 @@ export class ViewjobService {
         // 
     }
 
-    // /**
-    //  * 获取班级
-    //  * 
-    //  */
-    // getClass(level: any) {
-    //     return this.http.get('/v1/sys/orgs/getClass', {
-    //         level: level,
-    //     })
-    //         .catch(this.handleError);
-    // }
+
 
 
     /**
-     * 获取作业类型
+     * 获取成绩列表
      * 
      */
-    getType() {
-        return this.http.get('/v1/sys/dicts/type/job_type')
+    geTexamlist(form:any) {
+        return this.http.get('v1/class/exams/getexamlist',form)
             .catch(this.handleError);
     }
-
-
-    /**
-     * 获取作业列表
-     * 
-     */
-    getList(form:any) {
-        return this.http.get('/v1/jobs/getJobList',form)
-            .catch(this.handleError);
-    }
-
-
-    /**
-     * 获取作业详情
-     * 
-     */
-    getInfo(jobId: any) {
-        return this.http.get('/v1/jobs/' + jobId)
-            .catch(this.handleError);
-    }
-
-
 
 
 

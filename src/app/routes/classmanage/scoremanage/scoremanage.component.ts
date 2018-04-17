@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 
-import { ViewjobService } from './viewjob.service';
+import { ScoremanageService } from './scoremanage.service';
 
 import { ClassroomtestService } from '../../classmanage/classroomtest/classroomtest.service';
 
@@ -19,47 +19,43 @@ declare let laydate;
 
 
 @Component({
-    selector: 'app-viewjob',
-    templateUrl: './viewjob.component.html',
-    styleUrls: ['./viewjob.component.less']
+    selector: 'app-scoremanage',
+    templateUrl: './scoremanage.component.html',
+    styleUrls: ['./scoremanage.component.less']
 })
-export class ViewjobComponent implements OnInit {
+export class ScoremanageComponent implements OnInit {
 
     constructor(
-        public _ViewjobService: ViewjobService,
+        public _ScoremanageService: ScoremanageService,
         public _ClassroomtestService: ClassroomtestService,
+        private notification: NzNotificationService,
         public _Injector: Injector,
         private fb: FormBuilder,
         private message: NzMessageService,
     ) { }
 
     validateForm: FormGroup;
+
+    //   成绩导入 模板  地址
+    examsTemplateUrl = this._ScoremanageService.examsTemplateUrl;
     //   步骤
     step = 'list';
 
     view_data = {
         //   班级
         class:[],
-        //   作业类型
-        type:[],
-        //   作业详情
-        info:{
-            jobName: '',
-            jobContent: '',
-            jobAttachs:[],
-        },
+        //   考试名称
+        examName:'',
         //   列表表单
         form: {
             'pageNum': '1',
             'pageSize': '10',
             //
-            'orgCode': '',
-            'jobType': '',
-            'jobName': '',
-            'isAttach': '',
+            'classCode': '',
+            'examName': '',
             'beginDate': (moment(new Date()).subtract(7, 'days')).format('YYYY-MM-DD'),
             'endDate': moment(new Date()).format('YYYY-MM-DD'),
-            'date':''
+            'date': ''
         },
         //   资源列表
         res:{
@@ -67,6 +63,14 @@ export class ViewjobComponent implements OnInit {
             //
             row: []
         },
+        //   详情
+        info:[],
+        info_title:'',
+        //
+        table:{
+            allChecked:false,
+            indeterminate:false
+        }
     }
 
 
@@ -76,6 +80,11 @@ export class ViewjobComponent implements OnInit {
         this._ClassroomtestService.getClass('3').subscribe((res) => {
             if (res.code === '0') {
                 this.view_data.class = res.data;
+                //  设置默认值
+                this.view_data.form.classCode = this.view_data.class.length > 0 ? this.view_data.class[0].orgCode : '';
+                console.log(this.view_data.form)
+                //
+                this.List();
             } else {
                 this.view_data.class = [];
             }
@@ -83,22 +92,9 @@ export class ViewjobComponent implements OnInit {
     }
 
 
-    //   获取作业类型
-    private getType() {
-        //
-        this._ViewjobService.getType().subscribe((res) => {
-            if (res.code === '0') {
-                this.view_data.type = res.data;
-            } else {
-                this.view_data.type = [];
-            }
-        })
-    }
 
     //   查询列表
     List(){
-        console.log(this.view_data)
-        this.view_data.form = Object.assign({},this.view_data.form,this.validateForm.value);
         //  设置日期
         const date_len: HTMLInputElement = document.querySelector('#viewjob_date');
         if(date_len.value.length > 0){
@@ -109,9 +105,8 @@ export class ViewjobComponent implements OnInit {
             this.view_data.form.beginDate = '';
             this.view_data.form.endDate = '';
         }
-        delete this.view_data.form.date;
         //
-        this._ViewjobService.getList(this.view_data.form).subscribe((res) => {
+        this._ScoremanageService.getExamlist(this.view_data.form).subscribe((res) => {
             if (res.code === '0') {
                 this.view_data.res.row = res.data.list;
                 this.view_data.res.total = res.data.total;
@@ -126,6 +121,24 @@ export class ViewjobComponent implements OnInit {
         })
     }
 
+
+    refreshStatus(): void {
+        const allChecked = this.view_data.res.row.filter(value => !value.disabled).every(value => value.checked === true);
+        const allUnChecked = this.view_data.res.row.filter(value => !value.disabled).every(value => !value.checked);
+        this.view_data.table.allChecked = allChecked;
+        this.view_data.table.indeterminate = (!allChecked) && (!allUnChecked);
+    }
+
+    checkAll(value: boolean): void {
+        this.view_data.res.row.forEach(data => {
+            if (!data.disabled) {
+                data.checked = value;
+            }
+        });
+        this.refreshStatus();
+    }
+
+
     //   分页
     page_change(e:any){
         this.view_data.form.pageNum = e;
@@ -138,36 +151,40 @@ export class ViewjobComponent implements OnInit {
         this.List();
     }
 
+
+    //  删除
+    del_score(item:any){
+        console.log(item)
+        this._ScoremanageService.getDelete(item.examId).subscribe((res) => {
+            if (res.code === '0') {
+                this.List();
+                this.notification.create('success', '成功', '打分成功');
+            } else {
+                this.notification.create('error', '失败', res.message);
+            }
+        });
+    }
+
     
 
-
     //   取详情
-    Info(id:any){
-        this._ViewjobService.getInfo(id).subscribe((res) => {
-            console.log(res)
+    Info(item: any) {
+        this.view_data.info_title = item.examName;
+        this._ScoremanageService.getScoredetail(item.examId).subscribe((res) => {
             if (res.code === '0') {
                 this.view_data.info = res.data;
                 //   打开详情页
                 this.step = 'info';
             } else {
-                this.view_data.info = {
-                    jobName: '',
-                    jobContent: '',
-                    jobAttachs: [],
-                };
+                this.view_data.info = [];
                 this.message.create('warning', res.message);
             }
         })
     }
 
     //  返回
-    click_back(){
+    click_back() {
         this.step = 'list';
-        this.view_data.info = {
-            jobName: '',
-            jobContent: '',
-            jobAttachs: [],
-        };
     }
 
 
@@ -185,17 +202,7 @@ export class ViewjobComponent implements OnInit {
         });
         //   取班级
         this.getClass();
-        //   取作业类型
-        this.getType();
-        //
-        this.validateForm = this.fb.group({
-            orgCode: [''],
-            jobType: [''],
-            jobName: [''],
-            isAttach: [''],
-            date:[[this.view_data.form.beginDate,'-',this.view_data.form.endDate].join(' ')]
-        });
-
+        this.view_data.form.date = this.view_data.form.beginDate + ' - ' + this.view_data.form.endDate;
         
     }
 

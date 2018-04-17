@@ -1,0 +1,110 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.class_val" name="class_val">
+                                            <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <input type="text" id="viewjob_date" nz-input [(ngModel)]="view_data.form.assesDate" name="assesDate" placeholder="选择日期">
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="5">
+                                    <nz-form-item>
+                                        <nz-select nzPlaceHolder="选择课程" (ngModelChange)="scheduleChange($event)" [(ngModel)]="view_data.schedule_val" name="schedule_val">
+                                            <nz-option nzValue="{{item.id}}" nzLabel="{{item.seq}}{{item.subject ? ' ' + item.subject : ''}}" *ngFor="let item of view_data.schedule"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="9" class="top-classroomtest">
+                                    <nz-form-item style="text-align: right;">
+                                        <label nz-checkbox nzShowCheckbox [(nzChecked)]="view_data.res_row.allChecked" (nzCheckedChange)="checkAll($event)">全选</label>
+                                        &nbsp;&nbsp;
+                                        <a nz-button nzType="primary" (click)="click_classroomtest()">打分</a>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!--   学生列表   -->
+                    <div class="m-attendance-list">
+                        <ul class="clearfix">
+                            <li *ngFor="let item of view_data.res.row">
+                                <a (click)="item.checked = !item.checked" [ngClass]="{'active':item.checked}">
+                                    <img *ngIf="item.sex === '1'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-001.png'}}"
+                                    />
+                                    <img *ngIf="item.sex === '2'" src="{{ item.profilePhoto && item.profilePhoto.length > 0 ? item.profilePhoto : 'assets/img/user-002.png'}}"
+                                    />
+                                    <span title="{{item.studentName}}">{{item.studentName}}</span>
+                                </a>
+
+                                <div class="list-checked">
+                                    <label nz-checkbox [(ngModel)]="item.checked"></label>
+                                </div>
+
+                                <div class="list-mark">
+                                    <span class="mark-z" *ngIf="item.scoreAdd > 0">+{{item.scoreAdd}}</span>
+                                    <span class="mark-f" *ngIf="0 > item.scoreMinus">{{item.scoreMinus}}</span>
+                                </div>
+
+                            </li>
+                            <li *ngIf="!(view_data.res.row.length > 0)" style="width: 100%;text-align: center;font-size:16px;">
+                                <span>无数据</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--  打分-弹窗  -->
+                    <nz-modal [(nzVisible)]="modal_attendance.isVisibleMiddle" nzTitle="打分" (nzOnCancel)="modal_attendance.isVisibleMiddle = false"
+                        (nzOnOk)="edit_attendance()">
+                        <form nz-form>
+                            <nz-form-item style="margin-bottom:10px;">
+                                <p style="text-align: center; color:#999;">说明：可选择，也可输入。输入时请回车确定输入。</p>
+                                <nz-form-label [nzSm]="6" [nzXs]="24">缘由</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24">
+                                    <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="选择/输入缘由" [(ngModel)]="view_data.score_reason_select" name="score_reason_select">
+                                        <nz-option *ngFor="let item of view_data.score_reason" [nzLabel]="item.dictName" [nzValue]="item.dictCode">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item style="margin-bottom:10px;">
+                                <nz-form-label [nzSm]="6" [nzXs]="24">加减分</nz-form-label>
+                                <nz-form-control [nzSm]="14" [nzXs]="24">
+                                    <nz-input-number style="width:100%;" [(ngModel)]="view_data.form.score" name="score" [nzMin]="-100" [nzMax]="100" [nzStep]="1"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </form>
+                    </nz-modal>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

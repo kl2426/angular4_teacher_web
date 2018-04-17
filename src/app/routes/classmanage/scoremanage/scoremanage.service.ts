@@ -6,6 +6,7 @@ import { _HttpClient } from '@delon/theme';
 
 import { environment } from '@env/environment';
 
+
 export interface ResourceCloudfiles {
     pageNum: string;
     pageSize: string;
@@ -20,7 +21,7 @@ export interface ResourceCloudfiles {
 
 @Injectable()
 //  首页服务
-export class DecoratejobService {
+export class ScoremanageService {
 
     constructor(
         private http: _HttpClient,
@@ -30,79 +31,40 @@ export class DecoratejobService {
     }
 
 
-    //   上传文件地址
-    upfilePath = environment.SERVER_URL + 'v1/jobattachs/uploadAttachment';
-    //   富文本编辑框上传图片地址
-    ueditUpfilePath = environment.SERVER_URL + 'v1/sys/notices/upload';
+    //   下载上传课表 的 模板地址
+    examsTemplateUrl = environment.SERVER_URL + 'v1/class/exams/export';
 
-
-
-    // /**
-    //  * 获取班级
-    //  * 
-    //  */
-    // getClass(level: any) {
-    //     return this.http.get('v1/sys/orgs/getClass', {
-    //         level: level,
-    //     })
-    //         .catch(this.handleError);
-    // }
 
 
     /**
-     * 获取作业类型
+     * 获取成绩列表
      * 
      */
-    getType() {
-        return this.http.get('v1/sys/dicts/type/job_type')
-            .catch(this.handleError);
-    }
-
-
-    /**
-     * 获取学科
-     * 
-     */
-    getSubject() {
-        return this.http.get('v1/sys/dicts/type/subject')
+    getExamlist(form:any) {
+        return this.http.get('v1/class/exams/getexamlist',form)
             .catch(this.handleError);
     }
 
 
 
     /**
-     * 获取试卷列表
+     * 获取成绩详情
      * 
      */
-    getPapers(pageNum:any, pageSize:any, dirId:any, paperType:any) {
-        return this.http.get('v1/resource/papers/',{
-            pageNum: pageNum,
-            pageSize: pageSize,
-            dirId: dirId,
-            paperType: paperType,
-        })
+    getScoredetail(id: any) {
+        return this.http.get('v1/class/exams/scoredetail/' + id)
             .catch(this.handleError);
     }
 
-
-    
 
     /**
-     * 发布作业
+     * 删除成绩
      * 
      */
-    postJobs(obj:any) {
-        return this.http.post('v1/jobs/', obj)
+    getDelete(id: any) {
+        return this.http.get('v1/class/exams/delete/' + id)
             .catch(this.handleError);
     }
-
-
-
-
-
-
-
-
 
 
 

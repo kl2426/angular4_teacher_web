@@ -80,6 +80,7 @@ export class HeaderComponent implements OnInit {
             i.active = false;
         }
         item.active = true;
+        console.log(item)
         if (item.children && item.children.length > 0){
             this.router.navigate([item.children[0].link]);
         }

@@ -13,7 +13,7 @@
                 <li *ngFor="let item of view_data.res.row; index as i">
                     {{i + 1}}.
                     <label nz-checkbox [(ngModel)]="item.checked"></label>
-                    <a title="{{item.title || item.name}}" (click)="item.checked=!item.checked">{{item.title || item.name}}</a>
+                    <a title="{{item.title || item.name || item.paperName}}" (click)="item.checked=!item.checked">{{item.title || item.name || item.paperName}}</a>
                 </li>
             </ul>
         </div>

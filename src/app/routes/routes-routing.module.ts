@@ -29,6 +29,15 @@ import { MycloudplateComponent } from './resourcecenter/mycloudplate/mycloudplat
 import { ViewjobComponent } from './jobs/viewjob/viewjob.component';
 import { DecoratejobComponent } from './jobs/decoratejob/decoratejob.component';
 
+//  classmanage  班级管理
+import { ClassroomtestComponent } from './classmanage/classroomtest/classroomtest.component';
+import { ClassscheduleComponent } from './classmanage/classschedule/classschedule.component';
+import { AttendanceComponent } from './classmanage/attendance/attendance.component';
+import { GroupmanageComponent } from './classmanage/groupmanage/groupmanage.component';
+import { ScoremanageComponent } from './classmanage/scoremanage/scoremanage.component';
+import { ClassreportComponent } from './classmanage/classreport/classreport.component';
+
+
 const routes: Routes = [
     {
         path: 'resourcecenter',
@@ -51,6 +60,7 @@ const routes: Routes = [
             { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },
+    // 作业
     {
         path: 'jobs',
         component: LayoutDefaultComponent,
@@ -58,6 +68,20 @@ const routes: Routes = [
             { path: '', redirectTo: 'viewjob', pathMatch: 'full' },
             { path: 'viewjob', component: ViewjobComponent, data: { title: '作业查看' } },
             { path: 'decoratejob', component: DecoratejobComponent, data: { title: '布置作业' } },
+        ]
+    },
+    // 班级管理
+    {
+        path: 'classmanage',
+        component: LayoutDefaultComponent,
+        children: [
+            { path: '', redirectTo: 'classschedule', pathMatch: 'full' },
+            { path: 'classschedule', component: ClassscheduleComponent, data: { title: '课程表' } },
+            { path: 'classroomtest', component: ClassroomtestComponent, data: { title: '课堂考评' } },
+            { path: 'attendance', component: AttendanceComponent, data: { title: '考勤' } },
+            { path: 'groupmanage', component: GroupmanageComponent, data: { title: '分组管理' } },
+            { path: 'scoremanage', component: ScoremanageComponent, data: { title: '成绩管理' } },
+            { path: 'classreport', component: ClassreportComponent, data: { title: '班级报表' } },
         ]
     },
 
