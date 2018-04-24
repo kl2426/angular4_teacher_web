@@ -33,6 +33,7 @@ export class CloudresourceService {
      * 
      */
     getResource(dirCode: string, level: string, pDirId: string) {
+        console.log(this.http)
         return this.http.get('/v1/resource/dirs', {
             dirCode: dirCode,
             level: level,
@@ -47,6 +48,8 @@ export class CloudresourceService {
      * 
      */
     getResourceType(dictType: string) {
+        console.log(this.http)
+        console.log(this.http.get)
         return this.http.get('/v1/sys/dicts/type/' + dictType)
             .catch(this.handleError);
     }

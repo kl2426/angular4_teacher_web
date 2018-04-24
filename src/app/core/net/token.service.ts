@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TokenData } from './token.type';
 import { CookieService } from 'ngx-cookie-service';
 
 /** 存储键 */
