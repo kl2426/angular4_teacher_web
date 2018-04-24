@@ -1,0 +1,143 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob">
+                <div class="m-box">
+                    <div class="viewjob-header">
+                        <form nz-form [formGroup]="validateForm" (ngSubmit)="send()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">标题</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" nz-input formControlName="title" placeholder="输入标题">
+                                            <nz-form-explain *ngIf="validateForm.get('title').dirty && validateForm.get('title').errors">通知标题不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">发送方式</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-radio-group formControlName="sendWay">
+                                                <label nz-radio nzValue="{{item.dictCode}}" *ngFor="let item of view_data.send_way">{{item.dictName}}</label>
+                                            </nz-radio-group>
+                                            <nz-form-explain *ngIf="validateForm.get('sendWay').dirty && validateForm.get('sendWay').errors">发送方式不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">开始时间</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" id="viewjob_date_startDate" formControlName="startDate" nz-input placeholder="选择开始时间">
+                                            <nz-form-explain *ngIf="validateForm.get('startDate').dirty && validateForm.get('startDate').errors">开始时间不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">结束时间</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <input type="text" id="viewjob_date_endDate" formControlName="endDate" nz-input placeholder="选择结束时间">
+                                            <nz-form-explain *ngIf="validateForm.get('endDate').dirty && validateForm.get('endDate').errors">结束时间不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">通知类型</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="noticeType" nzPlaceHolder="选择通知类型">
+                                                <nz-option nzValue="{{item.dictCode}}" nzLabel="{{item.dictName}}" *ngFor="let item of view_data.notice_type"></nz-option>
+                                            </nz-select>
+                                            <nz-form-explain *ngIf="validateForm.get('noticeType').dirty && validateForm.get('noticeType').errors">通知类型必选</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="4">机构</nz-form-label>
+                                        <nz-form-control [nzSpan]="12">
+                                            <nz-select formControlName="orgCode" nzPlaceHolder="选择机构" (ngModelChange)="change_class($event)">
+                                                <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
+                                            </nz-select>
+                                            <nz-form-explain *ngIf="validateForm.get('orgCode').dirty && validateForm.get('orgCode').errors">机构必选</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+
+
+
+
+                                <div nz-col [nzSpan]="24" class="job-edit">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="2">内容</nz-form-label>
+                                        <nz-form-control [nzSpan]="22" class="has-error">
+                                            <div class="word-edit">
+                                                <div class="edit-dom">
+                                                    <div id="edit-edit">
+                                                        <!--   富文本框   -->
+                                                    </div>
+                                                    <nz-form-explain *ngIf="validateForm.get('content').dirty && validateForm.get('content').errors">作业内容不能为空</nz-form-explain>
+                                                </div>
+                                            </div>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="24">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label nzRequired [nzSpan]="2">发送类型</nz-form-label>
+                                        <nz-form-control [nzSpan]="22">
+                                            <nz-radio-group formControlName="pubType">
+                                                <label nz-radio nzValue="{{item.dictCode}}" *ngFor="let item of view_data.pub_type">{{item.dictName}}</label>
+                                            </nz-radio-group>
+                                            <input type="text" [ngClass]="{'hidden':validateForm.get('pubDate').value!=='2'}" id="viewjob_date_two" formControlName="pubDate"
+                                                nz-input style="width:200px;" placeholder="选择定时时间">
+                                            <nz-form-explain *ngIf="validateForm.get('pubDate').dirty && validateForm.get('pubDate').errors">发送时间不能为空</nz-form-explain>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="24" class="job-btn">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-control [nzSpan]="24">
+                                            <button nz-button>重置</button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button nz-button [nzType]="'primary'">发送</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                        </form>
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

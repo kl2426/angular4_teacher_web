@@ -36,6 +36,8 @@ export class ClassscheduleComponent implements OnInit {
     //   课表上传 模板  地址
     classTemplateUrl = this._ClassscheduleService.classTemplateUrl;
 
+    importUrl = this._ClassscheduleService.importUrl;
+
 
     view_data = {
         //   班级
@@ -153,6 +155,21 @@ export class ClassscheduleComponent implements OnInit {
         this.List();
     }
 
+
+
+    //   上传课程表
+    change_upfile(file:any){
+        console.log(file)
+        if (file.file && file.file.status === 'done'){
+            if (file.file.response.code === '0') {
+                this.notification.create('success', '成功', '打分成功');
+            } else {
+                this.notification.create('error', '失败', file.file.response.message);
+            }
+        }else{
+            //
+        }
+    }
 
 
     

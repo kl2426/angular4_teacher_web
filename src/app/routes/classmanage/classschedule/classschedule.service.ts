@@ -33,6 +33,8 @@ export class ClassscheduleService {
 
     //   下载上传课表 的 模板地址
     classTemplateUrl = environment.SERVER_URL + 'v1/class/courses/export';
+    //   上传课程 excel
+    importUrl = environment.SERVER_URL + 'v1/class/courses/import';
 
 
 
@@ -60,6 +62,11 @@ export class ClassscheduleService {
         })
             .catch(this.handleError);
     }
+
+
+
+
+
 
 
 

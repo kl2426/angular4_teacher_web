@@ -4,7 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-    SERVER_URL: `http://192.168.0.212:8090/`,
+    SERVER_URL: `http://192.168.0.238:8090/`,
     production: false,
     hmr: false,
     useHash: true

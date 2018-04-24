@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TokenData } from './token.type';
+import { CookieService } from 'ngx-cookie-service';
 
 /** 存储键 */
 const ATOKEN = '_accessToken';
@@ -28,46 +29,23 @@ export interface inResourceTree {
 }
 
 
+/**
+* 用户信息
+*/
+export interface interfaceUserInfo {
+    //   姓名
+    name: string;
+    //   手机
+    mobile: string;
+    [key: string]: any;
+}
+
 
 
 @Injectable()
 export class TokenService {
 
-    /**
-     * 设置cookie
-     */
-    private setCookie(cname: string, cvalue: string, seconds: number) {
-        var d = new Date();
-        d.setTime(d.getTime() + (seconds * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-
-    /**
-     * 获取cookie
-     */
-    private getCookie(cname:string) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1);
-            if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
-        }
-        return "";
-    }
-
-    /**
-     * 清除cookie
-     */
-    private clearCookie(name: string) {
-        var exp = new Date();
-        exp.setTime(exp.getTime() - 1);
-        var cval = this.getCookie(name);
-        if (cval != null)
-            document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
-    }
-
+    constructor(private cookieService: CookieService) { }
 
 
 
@@ -75,33 +53,33 @@ export class TokenService {
      * 保存
      */
     set accessToken(accessToken: string) {
-        this.setCookie('accessToken', accessToken, 60 * 30);
+        this.cookieService.set('accessToken', accessToken, 30 );
     }
 
     /**
      * 获取
      */
     get accessToken(): string {
-        return this.getCookie('accessToken') as string;
+        return this.cookieService.get('accessToken') as string;
     }
 
     /**
      * 保存
      */
     set refreshToken(refreshToken: string) {
-        this.setCookie('refreshToken', refreshToken, 60 * 30);
+        this.cookieService.set('refreshToken', refreshToken, 30);
     }
 
     /**
      * 获取
      */
     get refreshToken(): string {
-        return this.getCookie('refreshToken') as string;
+        return this.cookieService.get('refreshToken') as string;
     }
 
     logout() {
-        this.clearCookie('accessToken');
-        this.clearCookie('refreshToken');
+        this.cookieService.delete('accessToken');
+        this.cookieService.delete('refreshToken');
         //
         localStorage.removeItem(ATOKEN);
         localStorage.removeItem('menus');
@@ -145,9 +123,19 @@ export class TokenService {
 
 
 
+    /**
+     * 设置
+     */
+    set userInfo(obj: interfaceUserInfo) {
+        localStorage.setItem('userInfo', JSON.stringify(obj));
+    }
 
-
-
+    /**
+     * 获取
+     */
+    get userInfo(): interfaceUserInfo {
+        return (JSON.parse(localStorage.getItem('userInfo') || '{}') || {}) as interfaceUserInfo;
+    }
 
 
 

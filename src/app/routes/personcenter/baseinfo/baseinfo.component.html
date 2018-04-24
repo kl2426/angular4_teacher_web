@@ -1,0 +1,132 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  基本信息  -->
+            <div class="m-baseinfo" [ngClass]="{'hidden':!(step_baseinfo === 'user')}">
+                <div class="m-box">
+                    <!--  -->
+                    <div class="baseinfo-header">
+                        <div class="header-body">
+                            <img [src]="view_data.userInfo.profilePhoto" />
+                            <i class="anticon anticon-form" (click)="click_info()"></i>
+                        </div>
+                    </div>
+                    <!--    -->
+                    <div class="baseinfo-body">
+                        <div class="body-name">
+                            {{view_data.name}}
+                        </div>
+                        <div class="body-phone">
+                             {{view_data.userInfo.mobile}}
+                            <i class="anticon anticon-form" (click)="step = 'edit'"></i>
+                        </div>
+                        <div class="body-phone-edit" [ngClass]="{'hidden':step !== 'edit'}">
+                            <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="editMobile()">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-input-group>
+                                            <input type="text" nz-input formControlName="mobile" (blur)="mobileBlur()" placeholder="请输入手机号码">
+                                            <button nz-button [nzType]="'primary'" [disabled]="!view_data.code_checked" (click)="click_code()">{{view_data.code_time > -1 ? '(' + view_data.code_time + ')' : ''}}发送验证码</button>
+                                        </nz-input-group>
+                                        <nz-form-explain *ngIf="validateForm.get('mobile').dirty && validateForm.get('mobile').errors">{{validateForm.get('mobile').errors.msg}}</nz-form-explain>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-input-group>
+                                            <input type="text" nz-input formControlName="code" placeholder="请输入验证码">
+                                        </nz-input-group>
+                                        <nz-form-explain *ngIf="validateForm.get('code').dirty && validateForm.get('code').errors">验证码输入错误</nz-form-explain>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control style="text-align: center;">
+                                        <button nz-button class="login-form-button" [nzType]="'default'" (click)="validateForm.reset();step = 'show'">取消</button>
+                                        <button nz-button class="login-form-button" [nzType]="'primary'" [disabled]="!validateForm.dirty">修改</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </form>
+                        </div>
+
+                        <div class="body-name">
+                            李慧敏
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+            <!--   header   -->
+            <div class="m-baseinfo-info" [ngClass]="{'hidden':!(step_baseinfo === 'header')}">
+                <div class="m-box">
+                    <div class="info-bc">
+                        <button nz-button [nzType]="'primary'" (click)="step_baseinfo = 'user'">
+                            <i class="anticon anticon-left"></i>返回</button>
+                    </div>
+            
+            
+                    <!--      -->
+                    <div class="info-img">
+
+                        <div class="clearfix">
+                            <div class="img-left">
+                                <div class="left-left">
+                                    <div class="left-title">头像裁剪</div>
+                                    <div class="left-img">
+                                        <img id="baseinfo_image" [src]="view_data.userInfo.profilePhoto ? view_data.userInfo.profilePhoto : 'assets/img/index001.png'">
+                                    </div>
+                                    <div class="left-btn">
+                                        <div class="icon-wrapper test-class">
+                                            <i class="anticon anticon-minus-circle-o" (click)="click_zoom(view_data.sliderValue - 1)"></i>
+                                            <nz-slider [(nzMin)]="view_data.nzMin" [(nzMax)]="view_data.nzMax" [(ngModel)]="view_data.sliderValue" (ngModelChange)="click_zoom($event)"></nz-slider>
+                                            <i class="anticon anticon-plus-circle-o" (click)="click_zoom(view_data.sliderValue + 1)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="left-right">
+                                    <nz-upload [(nzFileList)]="view_data.fileList" [nzBeforeUpload]="beforeUpload">
+                                        <button nz-button [nzType]="'primary'">
+                                            <span>上传头像</span>
+                                        </button>
+                                    </nz-upload>
+                                </div>
+                            </div>
+                            
+                            <div class="img-right">
+                                <div class="right-title">头像预览</div>
+                                <div class="right-header">
+                                    <img [src]="view_data.img_base64">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- btn -->
+                        <div class="img-btn">
+                            <button nz-button [nzType]="'default'" (click)="step_baseinfo = 'user'">取消</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button nz-button [nzType]="'primary'" (click)="click_upheader()">修改</button>
+                        </div>
+
+                        
+
+
+                    </div>
+            
+            
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

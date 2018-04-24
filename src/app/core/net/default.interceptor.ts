@@ -84,7 +84,6 @@ export class DefaultInterceptor implements HttpInterceptor {
 
         // 统一加上服务端前缀
         const accessToken = this.injector.get(TokenService).accessToken;
-
         const newReq = this.appendAuth(req, accessToken);
         return next.handle(newReq).pipe(
                     mergeMap((event: any) => {

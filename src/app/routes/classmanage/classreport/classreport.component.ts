@@ -40,18 +40,17 @@ export class ClassreportComponent implements OnInit {
     view_data = {
         //   班级
         class:[],
+        //
+        class_val:'',
         //   考试名称
         examName:'',
         //   列表表单
         form: {
             'pageNum': '1',
-            'pageSize': '10',
+            'pageSize': '100',
             //
-            'classCode': '',
-            'examName': '',
-            'beginDate': (moment(new Date()).subtract(7, 'days')).format('YYYY-MM-DD'),
-            'endDate': moment(new Date()).format('YYYY-MM-DD'),
-            'date': ''
+            'orgCode': '',
+            'assesDate': moment(new Date()).format('YYYY-MM-DD'),
         },
         //   资源列表
         res:{
@@ -73,8 +72,7 @@ export class ClassreportComponent implements OnInit {
             if (res.code === '0') {
                 this.view_data.class = res.data;
                 //  设置默认值
-                this.view_data.form.classCode = this.view_data.class.length > 0 ? this.view_data.class[0].orgCode : '';
-                console.log(this.view_data.form)
+                this.view_data.form.orgCode = this.view_data.class.length > 0 ? this.view_data.class[0].orgCode : '';
                 //
                 this.List();
             } else {
@@ -87,61 +85,26 @@ export class ClassreportComponent implements OnInit {
 
     //   查询列表
     List(){
-        //  设置日期
-        const date_len: HTMLInputElement = document.querySelector('#viewjob_date');
-        if(date_len.value.length > 0){
-            let temp_arr = date_len.value.split(' ');
-            this.view_data.form.beginDate = temp_arr[0];
-            this.view_data.form.endDate = temp_arr[2];
-        }else{
-            this.view_data.form.beginDate = '';
-            this.view_data.form.endDate = '';
-        }
         //
-        this._ClassreportService.geTexamlist(this.view_data.form).subscribe((res) => {
+        this._ClassreportService.getClassReport(this.view_data.form).subscribe((res) => {
             if (res.code === '0') {
-                this.view_data.res.row = res.data.list;
-                this.view_data.res.total = res.data.total;
-                this.view_data.form.pageNum = res.data.pageNum;
-                this.view_data.form.pageSize = res.data.pageSize;
+                this.view_data.res.row = res.data;
             } else {
                 this.view_data.res.row = [];
-                this.view_data.res.total = 0;
-                this.view_data.form.pageNum = '1';
                 this.message.create('warning', res.message);
             }
         })
     }
 
 
-    refreshStatus(): void {
-        const allChecked = this.view_data.res.row.filter(value => !value.disabled).every(value => value.checked === true);
-        const allUnChecked = this.view_data.res.row.filter(value => !value.disabled).every(value => !value.checked);
-        this.view_data.table.allChecked = allChecked;
-        this.view_data.table.indeterminate = (!allChecked) && (!allUnChecked);
-    }
 
-    checkAll(value: boolean): void {
-        this.view_data.res.row.forEach(data => {
-            if (!data.disabled) {
-                data.checked = value;
-            }
-        });
-        this.refreshStatus();
-    }
-
-
-    //   分页
-    page_change(e:any){
-        this.view_data.form.pageNum = e;
+    //
+    classChange(e:any){
+        this.view_data.form.orgCode = e;
         this.List();
     }
 
-    //   分页
-    size_change(e: any) {
-        this.view_data.form.pageSize = e;
-        this.List();
-    }
+
 
     
 
@@ -176,15 +139,19 @@ export class ClassreportComponent implements OnInit {
 
 
 
+
+
     ngOnInit() {
         //日期范围
         laydate.render({
             elem: '#viewjob_date', 
-            range: true
+            done: (value, date, endDate) => {
+                this.view_data.form.assesDate = value;
+                this.List();
+            }
         });
         //   取班级
         this.getClass();
-        this.view_data.form.date = this.view_data.form.beginDate + ' - ' + this.view_data.form.endDate;
         
     }
 

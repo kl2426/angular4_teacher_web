@@ -5,56 +5,8 @@
         [nzPlaceHolder]="'请选择'">
     </nz-cascader>
 
-    <!-- <nz-select [(ngModel)]="selectedValue" class="left-nav-nj" nzAllowClear nzPlaceHolder="选择年级">
-                        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-                        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-                        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-                    </nz-select> -->
-    <!--  -->
     <div class="left-nav-chapter">
         <h4>章节</h4>
-
-
-
-
-
-
-
-
-
-
-
-        <!-- <ul nz-menu [nzMode]="'inline'">
-            <li nz-submenu *ngFor="let item of view_data.resource_chapter" [(nzOpen)]="item.isopen" (nzSelected)="item.isopen">
-                <span title (click)="click_nav(item)">{{item.label}}</span>
-                <ul>
-                    <ng-template *ngFor="let item2 of item.children" [ngIf]="item2.children.length == 0">
-                        <li nz-menu-item (click)="click_nav(item2)" [ngClass]="{'active':item2.isLeaf_open}">{{item2.label}}</li>
-                    </ng-template>
-                    <ng-template *ngFor="let item2 of item.children" [ngIf]="item2.children.length > 0">
-                        <li nz-submenu [(nzOpen)]="item2.isopen" (nzSelected)="item2.isopen">
-                            <span title (click)="click_nav(item2)">{{item2.label}}</span>
-                            <ul>
-                                <ng-template *ngFor="let item3 of item2.children" [ngIf]="item3.children.length == 0">
-                                    <li nz-menu-item (click)="click_nav(item3)" [ngClass]="{'active':item3.isLeaf_open}">{{item3.label}}</li>
-                                </ng-template>
-                                <ng-template *ngFor="let item3 of item2.children" [ngIf]="item3.children.length > 0">
-                                    <li nz-submenu class="left-nav-chapter-4" [(nzOpen)]="item3.isopen" (nzSelected)="item3.isopen">
-                                        <span title (click)="click_nav(item3)">{{item3.label}}</span>
-                                        <ul>
-                                            <li nz-menu-item *ngFor="let item4 of item3.children" (click)="click_nav(item4)" [ngClass]="{'active':item4.isLeaf_open}">{{item4.label}}</li>
-                                        </ul>
-                                    </li>
-                                </ng-template>
-                            </ul>
-                        </li>
-                    </ng-template>
-                </ul>
-            </li>
-        </ul> -->
-
-
-
 
         <ul nz-menu [nzMode]="'inline'">
             <li nz-submenu *ngFor="let item of view_data.resource_chapter" [(nzOpen)]="item.isopen">
@@ -64,7 +16,7 @@
                         <li nz-menu-item *ngIf="!(item2.children.length > 0)" (click)="click_nav(item2)">{{item2.label}}</li>
                         <li nz-submenu *ngIf="item2.children.length > 0" [(nzOpen)]="item2.isopen">
                             <span title (click)="click_nav(item2)">{{item2.label}}</span>
-                            <ul>
+                            <ul class="left-nav-chapter-4">
 
                                 <ng-container *ngFor="let item3 of item2.children">
                                     <li nz-menu-item *ngIf="!(item3.children.length > 0)" (click)="click_nav(item3)">{{item3.label}}</li>

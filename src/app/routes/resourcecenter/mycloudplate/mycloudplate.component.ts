@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 
 import { MycloudplateService } from './mycloudplate.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
+import { tree } from 'app/utils/tree';
 
 import { TokenService } from '../../../core/net/token.service';
 
@@ -40,6 +40,8 @@ export class MycloudplateComponent implements OnInit {
         private modalService: NzModalService,
         private message: NzMessageService,
     ) { }
+
+    _tree = new tree();
 
     view_data = {
         //   云资源类别
@@ -291,7 +293,7 @@ export class MycloudplateComponent implements OnInit {
             if (res.code === '0') {
                 //   修改属性
                 this.modal_move.tree = res.data;
-                dgTree(this.modal_move.tree, 'child', (item) => {
+                this._tree.dgTree(this.modal_move.tree, 'child', (item) => {
                     item.children = item.child;
                     item.title = item.name;
                     item.key = item.id;

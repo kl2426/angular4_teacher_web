@@ -1,0 +1,95 @@
+<!--   首页   -->
+<div class="m-main">
+    <div class="container container-mid">
+        <!--  内容  -->
+        <div class="clearfix">
+
+
+            <!--  作业查看  -->
+            <div class="m-viewjob" [ngClass]="{'hidden':!(step==='list')}">
+                <div class="m-box">
+                    <div class="viewjob-header">
+
+                        <form nz-form  (ngSubmit)="List()">
+                            <div nz-row [nzGutter]="24">
+
+                                <div nz-col [nzSpan]="8">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-label [nzSpan]="5">标题</nz-form-label>
+                                        <nz-form-control [nzSpan]="19">
+                                            <input type="text" nz-input [(ngModel)]="view_data.form.seachTitle" name="seachTitle" placeholder="输入标题">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzSpan]="8">
+                                    <nz-form-item nzFlex>
+                                        <nz-form-control [nzSpan]="24">
+                                            <button nz-button [nzType]="'primary'" (click)="List()">搜索</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="viewjob-list">
+                        <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>标题</th>
+                                    <th style="text-align: center; width:250px;">发布时间</th>
+                                    <th style="text-align: center; width:140px;">查看</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of rowSelectionTable.data">
+                                    <td class="viewjob-table-title">{{data.title}}</td>
+                                    <td style="text-align: center;">{{data.startDate && data.startDate.substr(0,16)}}</td>
+                                    <td class="my-option" style="text-align: center;">
+                                        <a (click)="Info(data)">详情</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div class="m-table-page" *ngIf="view_data.res.row.length > 0">
+                            <nz-pagination [nzPageIndex]="view_data.form.pageNum" [nzTotal]="view_data.res.total" nzShowSizeChanger [nzPageSize]="view_data.form.pageSize" (nzPageIndexChange)="page_change($event)" (nzPageSizeChange)="size_change($event)"></nz-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--   info   -->
+            <div class="m-viewjob m-viewjob-info" [ngClass]="{'hidden':!(step==='info')}">
+                <div class="m-box">
+                    <div class="info-bc">
+                        <button nz-button [nzType]="'primary'" (click)="click_back()">
+                            <i class="anticon anticon-left"></i>返回</button>
+                    </div>
+            
+            
+                    <div class="schoolnotice-info">
+                        <h3>{{view_data.info.title}}</h3>
+                        <p>
+                            <span>发布人：</span>
+                            <span>学校：</span>
+                            <span>发布时间：{{view_data.info.startDate}}</span>
+                            <span>浏览量：</span>
+                        </p>
+                        <div class="info-body" [innerHTML]="view_data.info.content">
+                            
+                        </div>
+                    </div>
+            
+            
+            
+            
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

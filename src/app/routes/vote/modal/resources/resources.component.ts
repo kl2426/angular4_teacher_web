@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit, Injector } from '@angular/core';
 import { NzNotificationService, NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { VoteService } from '../../vote.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
+import { tree } from 'app/utils/tree';
 
 import { TokenService } from '../../../../core/net/token.service';
 
@@ -32,6 +32,9 @@ export class ModalResourcesComponent implements OnInit {
 
     @Input() name: string;
     @Output() onVoted = new EventEmitter<any>();
+
+
+    _tree = new tree();
 
     isVisible = false;
     btn_title = '云资源导入';
@@ -77,7 +80,7 @@ export class ModalResourcesComponent implements OnInit {
                     }
                 }
                 //   生成树
-                this.view_data.resource_tree = toTreeData(tree, {
+                this.view_data.resource_tree = this._tree.toTreeData(tree, {
                     id: 'dirId',
                     parentId: 'pDirId',
                     rootId: '0'
@@ -91,7 +94,7 @@ export class ModalResourcesComponent implements OnInit {
                 //   生成年级树
                 
                 //   添加叶子属性
-                dgTree(this.view_data.resource_tree,null, (item)=>{
+                this._tree.dgTree(this.view_data.resource_tree,null, (item)=>{
                     item.title = item.dirName;
                     item.key = item.dirId;
                     if (!(item.children && item.children.length > 0)){
@@ -235,7 +238,7 @@ export class ModalResourcesComponent implements OnInit {
             if (res.code === '0') {
                 let tree = res.data;
                 //   添加叶子属性
-                dgTree(tree, 'child', (item) => {
+                this._tree.dgTree(tree, 'child', (item) => {
                     item.title = item.name;
                     item.key = item.id;
                     item.children = item.child;
@@ -260,7 +263,7 @@ export class ModalResourcesComponent implements OnInit {
     //         'children':[]
     //     }
     //     //   
-    //     dgTree(this.view_data.resource_tree,null, (item) => {
+    //     this._tree.dgTree(this.view_data.resource_tree,null, (item) => {
     //         if (e.length === 5 && item.dirId === e[4]) {
     //             temp_chapter = item;
     //         }
@@ -284,7 +287,7 @@ export class ModalResourcesComponent implements OnInit {
     //     if(item.children.length === 0){
     //         //   是指定L5叶子节点
     //         //   查找打开的干节点
-    //         dgTree(this.view_data.resource_chapter,null, (item) => {
+    //         this._tree.dgTree(this.view_data.resource_chapter,null, (item) => {
     //             if (item.isopen){
     //                 isopen_arr.push(item);
     //             }

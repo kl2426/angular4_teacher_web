@@ -12,13 +12,13 @@ import { TranslateModule } from '@ngx-translate/core';
 // region: third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
-import { UEditorModule } from 'ngx-ueditor';
+// import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 // import { NzSchemaFormModule } from 'nz-schema-form';
 const THIRDMODULES = [
     NgZorroAntdModule,
     CountdownModule,
-    UEditorModule,
+    // UEditorModule,
     NgxTinymceModule,
     // NzSchemaFormModule
 ];
