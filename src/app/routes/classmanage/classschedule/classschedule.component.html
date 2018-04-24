@@ -33,7 +33,11 @@
                                 <div nz-col [nzSpan]="8">
                                     <nz-form-item>
                                         <div style="text-align: right;">
-                                            <a nz-button nzType="primary">课表导入</a>
+                                            <nz-upload nzAction="{{importUrl}}" (nzChange)="change_upfile($event)" style="display: inline-block;">
+                                                <a nz-button nzType="primary">
+                                                    <span>课表导入</span>
+                                                </a>
+                                            </nz-upload>
                                             <a target="_blank" href="{{classTemplateUrl}}">（下载导入模板）</a>
                                         </div>
                                     </nz-form-item>

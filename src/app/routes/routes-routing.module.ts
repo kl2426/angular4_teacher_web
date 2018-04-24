@@ -3,17 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from '@env/environment';
 // layout
 import { LayoutDefaultComponent } from '../layout/default/default.component';
-// dashboard pages
-import { DashboardV1Component } from './dashboard/v1/v1.component';
-import { DashboardAnalysisComponent } from './dashboard/analysis/analysis.component';
-import { DashboardMonitorComponent } from './dashboard/monitor/monitor.component';
-import { DashboardWorkplaceComponent } from './dashboard/workplace/workplace.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 // single pages
-import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
@@ -37,6 +31,15 @@ import { GroupmanageComponent } from './classmanage/groupmanage/groupmanage.comp
 import { ScoremanageComponent } from './classmanage/scoremanage/scoremanage.component';
 import { ClassreportComponent } from './classmanage/classreport/classreport.component';
 
+//   个人中心
+import { BaseinfoComponent } from './personcenter/baseinfo/baseinfo.component';
+import { ChangepasswordComponent } from './personcenter/changepassword/changepassword.component';
+
+//   通知公告
+import { SchoolnoticeComponent } from './notice/schoolnotice/schoolnotice.component';
+import { ClassnoticeComponent } from './notice/classnotice/classnotice.component';
+import { ClassnoticeAddComponent } from './notice/classnotice/add/add.component';
+
 
 const routes: Routes = [
     {
@@ -48,16 +51,6 @@ const routes: Routes = [
             { path: 'schoolresource', component: SchoolresourceComponent, data: { title: '校本资源' } },
             { path: 'mycloudplate', component: MycloudplateComponent, data: { title: '我的云盘' } },
             { path: 'mycollection', component: MycollectionComponent, data: { title: '我的收藏' } },
-            // { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component },
-            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
-            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
-            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
-            { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' },
-            { path: 'style', loadChildren: './style/style.module#StyleModule' },
-            { path: 'delon', loadChildren: './delon/delon.module#DelonModule' },
-            { path: 'extras', loadChildren: './extras/extras.module#ExtrasModule' },
-            { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },
     // 作业
@@ -84,6 +77,27 @@ const routes: Routes = [
             { path: 'classreport', component: ClassreportComponent, data: { title: '班级报表' } },
         ]
     },
+    // 个人中心
+    {
+        path: 'personcenter',
+        component: LayoutDefaultComponent,
+        children: [
+            { path: '', redirectTo: 'baseinfo', pathMatch: 'full' },
+            { path: 'baseinfo', component: BaseinfoComponent, data: { title: '基本信息' } },
+            { path: 'changepassword', component: ChangepasswordComponent, data: { title: '修改密码' } },
+        ]
+    },
+    // 通知公告
+    {
+        path: 'notice',
+        component: LayoutDefaultComponent,
+        children: [
+            { path: '', redirectTo: 'schoolnotice', pathMatch: 'full' },
+            { path: 'schoolnotice', component: SchoolnoticeComponent, data: { title: '学校公告' } },
+            { path: 'classnotice', component: ClassnoticeComponent, data: { title: '班级通知' }},
+            { path: 'classnotice/add', component: ClassnoticeAddComponent, data: { title: '发布通知' }},
+        ]
+    },
 
 
 
@@ -108,7 +122,6 @@ const routes: Routes = [
     //     ]
     // },
     // 单页不包裹Layout
-    { path: 'callback/:type', component: CallbackComponent },
     { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
     { path: '403', component: Exception403Component },
     { path: '404', component: Exception404Component },

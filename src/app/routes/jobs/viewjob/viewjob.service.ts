@@ -70,6 +70,16 @@ export class ViewjobService {
     }
 
 
+    /**
+     * 删除作业
+     * 
+     */
+    delJobs(jobId: any) {
+        return this.http.get('/v1/jobs/delete/' + jobId)
+            .catch(this.handleError);
+    }
+
+
 
 
 

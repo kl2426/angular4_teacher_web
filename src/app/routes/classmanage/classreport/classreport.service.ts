@@ -35,8 +35,8 @@ export class ClassreportService {
      * 获取成绩列表
      * 
      */
-    geTexamlist(form:any) {
-        return this.http.get('v1/class/exams/getexamlist',form)
+    getClassReport(form:any) {
+        return this.http.get('v1/class/assessments/classReport',form)
             .catch(this.handleError);
     }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { CloudresourceService } from './cloudresource.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
 
 
 import { TokenService } from '../../../core/net/token.service';

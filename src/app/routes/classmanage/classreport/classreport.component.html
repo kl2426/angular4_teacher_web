@@ -15,7 +15,7 @@
 
                                 <div nz-col [nzSpan]="5">
                                     <nz-form-item>
-                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.class_val" name="class_val">
+                                        <nz-select nzPlaceHolder="选择班级" (ngModelChange)="classChange($event)" [(ngModel)]="view_data.form.orgCode" name="class_val">
                                             <nz-option nzValue="{{item.orgCode}}" nzLabel="{{item.orgName}}" *ngFor="let item of view_data.class"></nz-option>
                                         </nz-select>
                                     </nz-form-item>
@@ -23,7 +23,7 @@
                                 
                                 <div nz-col [nzSpan]="5">
                                     <nz-form-item>
-                                        <input type="text" id="viewjob_date" nz-input [(ngModel)]="view_data.form.assesDate" name="assesDate" placeholder="选择日期">
+                                        <input type="text" id="viewjob_date" nz-input [(ngModel)]="view_data.form.assesDate" name="date" placeholder="选择日期">
                                     </nz-form-item>
                                 </div>
                                 
@@ -36,7 +36,7 @@
                             <button nz-button [nzType]="'primary'">成绩导入</button>
                         </div>
                         <br/> -->
-                        <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzShowPagination]="false">
+                        <nz-table #rowSelectionTable [nzData]="view_data.res.row" [nzShowPagination]="true" [(nzPageSize)]="view_data.form.pageSize">
                             <thead>
                                 <tr>
                                     <th style="text-align: center;">姓名</th>
@@ -49,20 +49,18 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of rowSelectionTable.data">
-                                    <td class="viewjob-table-title">{{data.examName}}</td>
-                                    <td style="text-align: center;">{{data.examDate.substr(0,16)}}</td>
-                                    <td style="text-align: center;">{{data.orgName}}</td>
-                                    <td style="text-align: center;">{{data.subject}}</td>
-                                    <td style="text-align: center;">{{data.status}}</td>
+                                    <td class="viewjob-table-title">{{data.studentName}}</td>
+                                    <td style="text-align: center;">{{data.tsType}}</td>
+                                    <td style="text-align: center;">{{data.rushAnswerCount}}</td>
+                                    <td style="text-align: center;">{{data.selectAnswerRightRate}}</td>
+                                    <td style="text-align: center;">{{+(data.addScore) + +(data.minusScore)}}</td>
                                     <td class="my-option" style="text-align: center;">
-                                        <a (click)="Info(data.jobId)">详情</a>
+                                        <a (click)="Info(data.jobId)" *ngIf="data.existReason === true">详情</a>
+                                        <a *ngIf="data.existReason === false">--</a>
                                     </td>
                                 </tr>
                             </tbody>
                         </nz-table>
-                        <div class="m-table-page" *ngIf="view_data.res.row.length > 0">
-                            <nz-pagination [nzPageIndex]="view_data.form.pageNum" [nzTotal]="view_data.res.total" nzShowSizeChanger [nzPageSize]="view_data.form.pageSize" (nzPageIndexChange)="page_change($event)" (nzPageSizeChange)="size_change($event)"></nz-pagination>
-                        </div>
                     </div>
                 </div>
             </div>

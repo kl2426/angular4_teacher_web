@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit, Injector } from '@angular/core';
 import { VoteService } from '../vote.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
+import { tree } from 'app/utils/tree';
 
 
 import { TokenService } from '../../../core/net/token.service';
@@ -22,6 +22,7 @@ export class LeftnavComponent implements OnInit {
     @Input() name: string;
     @Output() onVoted = new EventEmitter<any>();
 
+    _tree = new tree();
 
     view_data = {
         //  资源树
@@ -59,28 +60,28 @@ export class LeftnavComponent implements OnInit {
                 let tree = res.data;
                 let temp_arr = [];
                 for(let item of res.data){
+                    if(item.level === 5){
+                        //   添加叶子属性
+                        item.isLeaf = true;
+                    }
                     if(item.level < 6){
                         temp_arr.push(item);
                     }
                 }
                 //   生成树
-                this.view_data.resource_tree = toTreeData(tree, {
+                this.view_data.resource_tree = this._tree.toTreeData(tree, {
                     id: 'dirId',
                     parentId: 'pDirId',
                     rootId: '0'
                 });
                 //   生成年级树
-                this.view_data.resource_grade = toTreeData(temp_arr, {
+                this.view_data.resource_grade = this._tree.toTreeData(temp_arr, {
                     id: 'dirId',
                     parentId: 'pDirId',
                     rootId: '0'
                 })[0].children;
-                //   添加叶子属性
-                dgTree(this.view_data.resource_grade,null, (item)=>{
-                    if (item.level === 5){
-                        item.isLeaf = true;
-                    }
-                });
+
+                console.log(this.view_data.resource_grade);
                 
             }else{
 
@@ -94,22 +95,30 @@ export class LeftnavComponent implements OnInit {
     change_left_nav(e:any){
         //   取章节
         let temp_chapter = {
-            'children':[]
-        }
+            children:[]
+        };
+        console.log('=============99', this._tree.dgTree)
         //   
-        dgTree(this.view_data.resource_tree,null, (item) => {
-            if (e.length === 5 && item.dirId === e[4]) {
+        this._tree.dgTree(this.view_data.resource_tree,null, (item) => {
+            if (item.dirId === e[4]) {
                 temp_chapter = item;
             }
         });
+        console.log('=============106', this._tree.dgTree)
         //  整理章节
-        this.view_data.resource_chapter = temp_chapter.children[0].children;
+        if ('children' in temp_chapter && temp_chapter.children.length > 0){
+            this.view_data.resource_chapter = temp_chapter.children[0].children;
+        }else{
+            this.view_data.resource_chapter = [];
+        }
+        
 
     }
 
 
     //    树点击
     click_nav(item:any){
+        console.log(item)
         //  dirId
         this.view_data.form.dirId = item.dirId;
         //  输出给父级
@@ -121,7 +130,8 @@ export class LeftnavComponent implements OnInit {
         if(item.children.length === 0){
             //   是指定L5叶子节点
             //   查找打开的干节点
-            dgTree(this.view_data.resource_chapter,null, (item) => {
+            console.log('=============131', this._tree.dgTree)
+            this._tree.dgTree(this.view_data.resource_chapter,null, (item) => {
                 if (item.isopen){
                     isopen_arr.push(item);
                 }
@@ -145,6 +155,7 @@ export class LeftnavComponent implements OnInit {
 
 
 
+
     ngOnInit() {
         //  载入资源目录
         const temp_obj = this._Injector.get(TokenService).resourceTree;
@@ -155,13 +166,18 @@ export class LeftnavComponent implements OnInit {
             this.view_data.resource_chapter = temp_obj.chapter;
             //
             //   选中项
-            this.view_data.form.dirId = temp_obj.item.dirId;
+            this.view_data.form.dirId = temp_obj.item ? temp_obj.item.dirId : '';
+            if (!(this.view_data.form.dirId && this.view_data.form.dirId.length > 0)){
+                return false;
+            }
             //  active
-            dgTree(this.view_data.resource_chapter,null, (item) => {
+            console.log('=============172', this._tree.dgTree)
+            this._tree.dgTree(this.view_data.resource_chapter,null, (item) => {
                 if (item.dirId === this.view_data.form.dirId) {
                     item.isLeaf_open = true;
                 }
             });
+            console.log('=============179', this._tree.dgTree)
             //  输出给父级
             this.onVoted.emit(this.view_data.form.dirId);
         }else{

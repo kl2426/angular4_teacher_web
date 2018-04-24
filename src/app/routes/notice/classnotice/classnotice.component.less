@@ -1,0 +1,126 @@
+@import '~@delon/theme/styles/default';
+
+:host ::ng-deep {
+    // left-nav
+    .m-viewjob{
+        .viewjob-header{
+            padding-bottom: 20px;
+            border-bottom: solid 1px #eee;
+            > form{
+                nz-form-item{
+                    margin-bottom: 10px;
+                }
+                nz-form-label{
+                    label{
+                        &::after{
+                            content: '';
+                        }
+                    }
+                }
+                button[nz-button]{
+                    min-width: 120px;
+                }
+            }
+        }
+        .viewjob-list{
+            margin-top: 20px;
+            nz-table{
+                thead{
+                    tr{
+                        th{
+                            background-color: #72cfb1;
+                            color: #fff;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            border-bottom: 0;
+                        }
+                        &:nth-child(2n){
+                            background-color: #fafdfc;
+                        }
+                    }
+                }
+                .my-option{
+                    a{
+                        display: inline-block;
+                        margin: 0 5px;
+                    }
+                }
+            }
+            .viewjob-table-title{
+                max-width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    //   作业 详情
+    .m-viewjob-info{
+        .info-bc{
+            text-align: left;
+            button{
+
+            }
+        }
+        .info-header{
+            padding-top: 30px;
+            margin-bottom: 20px;
+            line-height: 30px;
+            border-bottom: solid 1px #ccc;
+            font-size: 16px;
+            color: #ccc;
+        }
+        .info-title{
+            h3{
+                font-size: 20px;
+            }
+            p{
+                color: #ccc;
+            }
+        }
+        .info-body{
+            .body-body{
+                margin: 20px;
+            }
+        }
+        .info-file{
+            margin: 50px 0 100px 0;
+            ul{
+                li{
+                    float: left;
+                    a{
+                        display: block;
+                        text-align: center;
+                        line-height: 24px;
+                        min-width: 60px;
+                        padding: 0 20px 0 10px;
+                    }
+                }
+            }
+        }
+
+        .schoolnotice-info{
+            margin: 40px;
+            > h3{
+                text-align: center;
+                font-size: 20px;
+            }
+            > p{
+                text-align: center;
+                span{
+                    margin: 0 10px;
+                }
+            }
+            .info-body{
+                margin-top: 50px;
+                text-align: left;
+            }
+        }
+    }
+
+}

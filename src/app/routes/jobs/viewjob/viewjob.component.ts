@@ -28,6 +28,7 @@ export class ViewjobComponent implements OnInit {
     constructor(
         public _ViewjobService: ViewjobService,
         public _ClassroomtestService: ClassroomtestService,
+        private notification: NzNotificationService,
         public _Injector: Injector,
         private fb: FormBuilder,
         private message: NzMessageService,
@@ -138,6 +139,19 @@ export class ViewjobComponent implements OnInit {
         this.List();
     }
 
+
+    //   删除课程
+    del_confirm(item:any){
+        this._ViewjobService.delJobs(item.jobId).subscribe((res) => {
+            if (res.code === '0') {
+                this.notification.create('success', '成功', '删除成功');
+                this.List();
+            } else {
+                this.notification.create('error', '失败', res.message);
+            }
+        });
+    }
+
     
 
 
@@ -169,6 +183,8 @@ export class ViewjobComponent implements OnInit {
             jobAttachs: [],
         };
     }
+
+
 
 
 

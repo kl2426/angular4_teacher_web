@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { _HttpClient } from '@delon/theme';
 
+import { environment } from '@env/environment';
+
 
 export interface ResourceCloudfiles {
     pageNum: string;
@@ -18,8 +20,8 @@ export interface ResourceCloudfiles {
 
 
 @Injectable()
-//  首页服务
-export class CloudresourceService {
+//  考勤
+export class ChangepasswordService {
 
     constructor(
         private http: _HttpClient,
@@ -28,41 +30,35 @@ export class CloudresourceService {
         // 
     }
 
+
+
     /**
-     * 获取资源目录
+     * 获取修改密码验证码
      * 
      */
-    getResource(dirCode: string, level: string, pDirId: string) {
-        console.log(this.http)
-        return this.http.get('/v1/resource/dirs', {
-            dirCode: dirCode,
-            level: level,
-            pDirId: pDirId,
+    getPasswordsms() {
+        return this.http.get('v1/sys/teachers/passwordsms')
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 修改密码
+     * 
+     */
+    postPassword(oldPassword: any, password: any, verifyCode:any) {
+        return this.http.post('v1/sys/teachers/password',{
+            oldPassword: oldPassword,
+            password: password,
+            verifyCode: verifyCode,
         })
             .catch(this.handleError);
     }
 
 
-    /**
-     * 获取云资源类别
-     * 
-     */
-    getResourceType(dictType: string) {
-        console.log(this.http)
-        console.log(this.http.get)
-        return this.http.get('/v1/sys/dicts/type/' + dictType)
-            .catch(this.handleError);
-    }
 
 
-    /**
-     * 获取资源列表
-     * 
-     */
-    getResourceCloudfiles(obj: ResourceCloudfiles) {
-        return this.http.get('/v1/resource/cloudfiles', obj)
-            .catch(this.handleError);
-    }
+
 
 
 

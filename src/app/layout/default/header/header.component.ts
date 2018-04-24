@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { TokenService } from './../../../core/net/token.service';
 
-import { toTreeData, dgTree } from 'app/utils/tree';
+import { tree } from 'app/utils/tree';
 
 
 export interface resData {
@@ -32,11 +32,15 @@ export class HeaderComponent implements OnInit {
         private router: Router,
         private injector: Injector,
 
-    ) { }
+    ) {
+     }
+
+    _tree = new tree();
 
     view_data = {
         menu:null,
     }
+
 
     //  取菜单 
     getMenu(){
@@ -61,7 +65,8 @@ export class HeaderComponent implements OnInit {
             url_arr_url.push(temp_url_arr.join('/'));
         }
         //
-        dgTree(items, 'children', (item) => {
+        console.log(this._tree);
+        this._tree.dgTree(items, 'children', (item) => {
             item.active = false;
             for(let val of url_arr_url){
                 if(item.link === val){

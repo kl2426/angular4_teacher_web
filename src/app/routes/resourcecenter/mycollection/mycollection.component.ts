@@ -2,9 +2,6 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
 
 import { MycollectionService } from './mycollection.service';
-import { toTreeData, dgTree } from 'app/utils/tree';
-
-
 
 
 
